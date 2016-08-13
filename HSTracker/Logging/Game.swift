@@ -446,9 +446,7 @@ class Game {
             endTime = NSDate()
         }
         
-        // swiftlint:disable line_length
         statistic.duration = Int(endTime.timeIntervalSince1970 - startTime.timeIntervalSince1970)
-        // swiftlint:enable line_length
         var cards = [String: Int]()
         opponent.displayRevealedCards.forEach({
             cards[$0.id] = $0.count
@@ -474,6 +472,14 @@ class Game {
                 try TrackOBotAPI.postMatch(self, deck: deck, stat: statistic)
             } catch {
                 Log.error?.message("Track-o-Bot error : \(error)")
+            }
+        }
+        
+        if Settings.instance.hsReplaySynchronizeMatches {
+            HSReplayAPI.getUploadToken { (token) in
+                LogUploader.upload(self.powerLog, game: self, statistic: statistic) { result in
+                    print("\(result)")
+                }
             }
         }
     }

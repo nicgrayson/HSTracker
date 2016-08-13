@@ -37,6 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             TrackersPreferences(nibName: "TrackersPreferences", bundle: nil)!,
             PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil)!,
             OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil)!,
+            HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)!,
             HearthstatsPreferences(nibName: "HearthstatsPreferences", bundle: nil)!,
             TrackOBotPreferences(nibName: "TrackOBotPreferences", bundle: nil)!
             ], title: NSLocalizedString("Preferences", comment: ""))
@@ -313,33 +314,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
         splashscreen?.close()
         splashscreen = nil
-        
-        /*HSReplayAPI.getUploadToken { (token) in
-            Log.info?.message("new token \(token)")
-            
-            do {
-                if let deck = Decks.instance.decks().first({
-                    $0.name == "[Easy Rank 5] Evolve Shaman"
-                }),
-                    statistic = deck.statistics.first({
-                        $0.opponentName == "SlavaStas"
-                    }) {
-                    
-                    let output = "/Users/benjamin/Downloads/output_log.txt"
-                    let text = try String(contentsOfFile: output)
-                    LogUploader.upload(text.componentsSeparatedByString("\n"),
-                        game: Game.instance,
-                    statistic: statistic) { result in
-                        print("\(result)")
-                    }
-                } else {
-                    print("deck ? stat ? ")
-                }
-            } catch {
-                print("\(error)")
-            }
-        }*/
-        HSReplayAPI.updateAccountStatus()
     }
 
     func openTrackers() {
@@ -574,13 +548,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 menu.submenu = classMenu
             }
         }
+        
+        let replayMenu = mainMenu?.itemWithTitle(NSLocalizedString("Replays", comment: ""))
+        let replaysMenu = replayMenu?.submenu?.itemWithTitle(NSLocalizedString("Last replays",
+            comment: ""))
+        replaysMenu?.submenu?.removeAllItems()
+        
+        
 
         let settings = Settings.instance
         let windowMenu = mainMenu?.itemWithTitle(NSLocalizedString("Window", comment: ""))
-        // swiftlint:disable line_length
-        let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString("Lock windows", comment: ""))
-        item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows", comment: "")
-        // swiftlint:enable line_length
+        let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString("Lock windows",
+            comment: ""))
+        item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows",
+                                        comment: "")
     }
 
     func playDeck(sender: NSMenuItem) {

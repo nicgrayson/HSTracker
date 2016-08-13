@@ -53,6 +53,8 @@
 		432C11AB1CCF6B460067C5FE /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C11AA1CCF6B460067C5FE /* Format.swift */; };
 		433554331D5F6B4400277B27 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 433554321D5F6B4400277B27 /* libz.tbd */; };
 		433554351D5F6B9900277B27 /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554341D5F6B9900277B27 /* NSData+GZIP.swift */; };
+		433554391D5FABD600277B27 /* HSReplayPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554381D5FABD600277B27 /* HSReplayPreferences.swift */; };
+		4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4335543C1D5FAF0300277B27 /* HSReplayPreferences.xib */; };
 		434106A41C9868620045655A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A11C9868620045655A /* Assets.xcassets */; };
 		434106A51C9868620045655A /* Classes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A21C9868620045655A /* Classes.xcassets */; };
 		4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
@@ -374,7 +376,6 @@
 		432B5FD41CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
 		432B5FD51CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GamePreferences.strings; sourceTree = "<group>"; };
 		432B5FD61CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/PlayerTrackersPreferences.strings; sourceTree = "<group>"; };
-		432B5FD71CB5378C00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		432B5FD81CB5378C00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		432B5FD91CB5492500B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/DeckManager.strings; sourceTree = "<group>"; };
 		432B5FDA1CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/NewDeck.strings; sourceTree = "<group>"; };
@@ -454,6 +455,16 @@
 		433554311D5F6B3600277B27 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		433554321D5F6B4400277B27 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		433554341D5F6B9900277B27 /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
+		433554381D5FABD600277B27 /* HSReplayPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSReplayPreferences.swift; sourceTree = "<group>"; };
+		4335543B1D5FAF0300277B27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HSReplayPreferences.xib; sourceTree = "<group>"; };
+		4335543E1D5FAF0600277B27 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/HSReplayPreferences.strings"; sourceTree = "<group>"; };
+		433554401D5FAF0800277B27 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/HSReplayPreferences.strings"; sourceTree = "<group>"; };
+		433554421D5FAF0A00277B27 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/HSReplayPreferences.strings; sourceTree = "<group>"; };
+		433554441D5FAF0B00277B27 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/HSReplayPreferences.strings; sourceTree = "<group>"; };
+		433554461D5FAF0F00277B27 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/HSReplayPreferences.strings; sourceTree = "<group>"; };
+		4335544A1D5FB7AF00277B27 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
+		4335544C1D5FB8D700277B27 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HSReplayPreferences.strings; sourceTree = "<group>"; };
+		4335544E1D5FBDFB00277B27 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		434106A11C9868620045655A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		434106A21C9868620045655A /* Classes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Classes.xcassets; sourceTree = "<group>"; };
 		434910441D09505100B22DB2 /* BoardDamage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardDamage.xib; sourceTree = "<group>"; };
@@ -498,7 +509,6 @@
 		4359BF8F1D51FD5500F61993 /* TrackOBotPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackOBotPreferences.swift; sourceTree = "<group>"; };
 		4359BF931D52142D00F61993 /* PlayedCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayedCard.swift; sourceTree = "<group>"; };
 		4359BF961D5221FF00F61993 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TrackOBotPreferences.xib; sourceTree = "<group>"; };
-		4359BF991D52220100F61993 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
 		4359BF9B1D52220300F61993 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
 		4359BF9D1D52220400F61993 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
 		4359BF9F1D52220600F61993 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
@@ -1172,6 +1182,8 @@
 				43C568001D5E584F00451B6F /* LogUploader.swift */,
 				43C568021D5E59E500451B6F /* UploadResult.swift */,
 				43C568041D5E5BFF00451B6F /* UploadMetaData.swift */,
+				433554381D5FABD600277B27 /* HSReplayPreferences.swift */,
+				4335543C1D5FAF0300277B27 /* HSReplayPreferences.xib */,
 			);
 			path = HSReplay;
 			sourceTree = "<group>";
@@ -1364,6 +1376,7 @@
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
+				4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */,
 				43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */,
 				432B60131CB63D7000B05D19 /* HearthstatsPreferences.xib in Resources */,
 				432B60101CB63D4C00B05D19 /* HearthstatsLogin.xib in Resources */,
@@ -1549,6 +1562,7 @@
 				4394C79B1D18700200007FAD /* CVRankDetector.cpp in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
 				436F5D161CFD822600DEB9A1 /* MinimalBar.swift in Sources */,
+				433554391D5FABD600277B27 /* HSReplayPreferences.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
 				43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */,
 				437B5BAE1CD1F76C00DE0A41 /* WotogCounter.swift in Sources */,
@@ -1624,12 +1638,12 @@
 			isa = PBXVariantGroup;
 			children = (
 				432B5FB11CB536E700B05D19 /* Base */,
-				432B5FD71CB5378C00B05D19 /* fr */,
 				432B5FE21CB5492600B05D19 /* de */,
 				432B5FED1CB549F100B05D19 /* es */,
 				432B5FF81CB54A3600B05D19 /* it */,
 				432B60031CB54A6800B05D19 /* pt-BR */,
 				432B600E1CB54AD700B05D19 /* zh-Hans */,
+				4335544E1D5FBDFB00277B27 /* fr */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -1788,6 +1802,20 @@
 			name = HearthstatsPreferences.xib;
 			sourceTree = "<group>";
 		};
+		4335543C1D5FAF0300277B27 /* HSReplayPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4335543B1D5FAF0300277B27 /* Base */,
+				4335543E1D5FAF0600277B27 /* zh-Hans */,
+				433554401D5FAF0800277B27 /* pt-BR */,
+				433554421D5FAF0A00277B27 /* it */,
+				433554441D5FAF0B00277B27 /* es */,
+				433554461D5FAF0F00277B27 /* de */,
+				4335544C1D5FB8D700277B27 /* fr */,
+			);
+			name = HSReplayPreferences.xib;
+			sourceTree = "<group>";
+		};
 		434D1CB61D10947200222B8E /* Statistics.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1821,12 +1849,12 @@
 			isa = PBXVariantGroup;
 			children = (
 				4359BF961D5221FF00F61993 /* Base */,
-				4359BF991D52220100F61993 /* fr */,
 				4359BF9B1D52220300F61993 /* de */,
 				4359BF9D1D52220400F61993 /* es */,
 				4359BF9F1D52220600F61993 /* it */,
 				4359BFA11D52220700F61993 /* pt-BR */,
 				4359BFA31D52220800F61993 /* zh-Hans */,
+				4335544A1D5FB7AF00277B27 /* fr */,
 			);
 			name = TrackOBotPreferences.xib;
 			sourceTree = "<group>";

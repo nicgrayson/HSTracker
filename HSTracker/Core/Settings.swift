@@ -306,6 +306,10 @@ final class Settings {
         set { set("hsreplay_id", value: newValue) }
         get { return get("hsreplay_id") as? Int }
     }
+    var hsReplaySynchronizeMatches: Bool {
+        set { set("hsreplay_auto_synchronize_matches", value: newValue) }
+        get { return get("hsreplay_auto_synchronize_matches") as? Bool ?? true }
+    }
 
     // MARK: - Hearthstats
     var hearthstatsLogin: String? {
