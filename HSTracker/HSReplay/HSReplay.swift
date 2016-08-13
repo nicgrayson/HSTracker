@@ -15,20 +15,10 @@ struct HSReplay {
     private static let uploadRequestApi = "/replay/upload/request"
     private static let tokenApi = "/tokens"
     private static let claimAccountApi = "/claim_account/"
-    private static let cacheFile = "hsreplay.cache"
     
     static let baseApiUrl = "\(baseUrl)\(baseApi)"
     static let baseUploadApiUrl = "\(baseUploadUrl)\(baseApi)"
     static let uploadRequestUrl = "\(baseUploadApiUrl)\(uploadRequestApi)"
     static let tokensUrl = "\(baseApiUrl)\(tokenApi)"
-    static let cacheFilePath: String = {
-        if let appSupport = NSSearchPathForDirectoriesInDomains(
-            .ApplicationSupportDirectory, .UserDomainMask, true).first {
-                
-                let path = "\(appSupport)/HSTracker"
-            return "\(path)\(cacheFile)"
-        }
-        return ""
-    }()
     static let claimAccountUrl = "\(baseApiUrl)\(claimAccountApi)"
 }
