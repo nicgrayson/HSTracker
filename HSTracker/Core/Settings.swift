@@ -292,6 +292,20 @@ final class Settings {
         set { set("trackobot_auto_synchronize_matches", value: newValue) }
         get { return get("trackobot_auto_synchronize_matches") as? Bool ?? true }
     }
+    
+    // MARK:- HSReplay
+    var hsReplayUploadToken: String? {
+        set { set("hsreplay_upload_token", value: newValue) }
+        get { return get("hsreplay_upload_token") as? String }
+    }
+    var hsReplayUsername: String? {
+        set { set("hsreplay_username", value: newValue) }
+        get { return get("hsreplay_username") as? String }
+    }
+    var hsReplayId: Int? {
+        set { set("hsreplay_id", value: newValue) }
+        get { return get("hsreplay_id") as? Int }
+    }
 
     // MARK: - Hearthstats
     var hearthstatsLogin: String? {

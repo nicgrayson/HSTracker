@@ -313,6 +313,33 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
         splashscreen?.close()
         splashscreen = nil
+        
+        /*HSReplayAPI.getUploadToken { (token) in
+            Log.info?.message("new token \(token)")
+            
+            do {
+                if let deck = Decks.instance.decks().first({
+                    $0.name == "[Easy Rank 5] Evolve Shaman"
+                }),
+                    statistic = deck.statistics.first({
+                        $0.opponentName == "SlavaStas"
+                    }) {
+                    
+                    let output = "/Users/benjamin/Downloads/output_log.txt"
+                    let text = try String(contentsOfFile: output)
+                    LogUploader.upload(text.componentsSeparatedByString("\n"),
+                        game: Game.instance,
+                    statistic: statistic) { result in
+                        print("\(result)")
+                    }
+                } else {
+                    print("deck ? stat ? ")
+                }
+            } catch {
+                print("\(error)")
+            }
+        }*/
+        HSReplayAPI.updateAccountStatus()
     }
 
     func openTrackers() {

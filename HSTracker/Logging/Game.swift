@@ -375,6 +375,10 @@ class Game {
             opponentName = opponent.name,
             opponentClass = opponent.playerClass {
             
+            var result: [Int: Int] = [:]
+            opponentRanks.forEach({ result[$0] = (result[$0] ?? 0) + 1 })
+            let opponentRank = Array(result).sort { $0.1 < $1.1 }.last?.0 ?? -1
+            
             var note = ""
 
             if Settings.instance.promptNotes
@@ -400,20 +404,23 @@ class Game {
                                    rank: currentRank,
                                    note: note,
                                    opponentName: opponentName,
-                                   opponentClass: opponentClass)
+                                   opponentClass: opponentClass,
+                                   opponentRank: opponentRank)
                 }
             } else {
                 saveMatch(deck,
                           rank: currentRank,
                           note: note,
                           opponentName: opponentName,
-                          opponentClass: opponentClass)
+                          opponentClass: opponentClass,
+                          opponentRank: opponentRank)
             }
         }
     }
     
     private func saveMatch(deck: Deck, rank: Int, note: String,
-                           opponentName: String, opponentClass: CardClass) {
+                           opponentName: String, opponentClass: CardClass,
+                           opponentRank: Int) {
         let statistic = Statistic()
         statistic.opponentName = opponentName
         statistic.opponentClass = opponentClass
@@ -424,6 +431,7 @@ class Game {
         statistic.numTurns = turnNumber()
         statistic.note = note
         statistic.season = Database.currentSeason
+        statistic.opponentRank = opponentRank
         let startTime: NSDate
         if let gameStartDate = gameStartDate {
             startTime = gameStartDate
