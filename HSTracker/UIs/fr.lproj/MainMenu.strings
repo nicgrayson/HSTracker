@@ -103,3 +103,6 @@
 
 /* Class = "NSMenuItem"; title = "Open replays directory"; ObjectID = "yTs-jD-geS"; */
 "yTs-jD-geS.title" = "Ouvrir le répertoire des replays";
+
+/* Class = "NSMenuItem"; title = "Last replays"; ObjectID = "gKK-Xg-cTS"; */
+"gKK-Xg-cTS.title" = "Last replays";

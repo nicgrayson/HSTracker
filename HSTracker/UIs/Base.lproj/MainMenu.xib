@@ -142,6 +142,10 @@
                                     <action selector="openReplayDirectory:" target="Voe-Tx-rLC" id="JMS-5j-YFt"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Last replays" enabled="NO" id="gKK-Xg-cTS">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Last replays" id="Ck1-T5-ndx"/>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>

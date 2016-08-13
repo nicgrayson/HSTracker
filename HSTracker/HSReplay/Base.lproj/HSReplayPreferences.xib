@@ -53,7 +53,7 @@
                         <action selector="claimAccount:" target="-2" id="qbd-Vw-8qY"/>
                     </connections>
                 </button>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="UdW-1g-XMj">
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UdW-1g-XMj">
                     <rect key="frame" x="18" y="122" width="444" height="34"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser." id="alf-8N-P9t">
                         <font key="font" metaFont="system"/>

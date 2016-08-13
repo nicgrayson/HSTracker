@@ -553,15 +553,36 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         let replaysMenu = replayMenu?.submenu?.itemWithTitle(NSLocalizedString("Last replays",
             comment: ""))
         replaysMenu?.submenu?.removeAllItems()
+        replaysMenu?.enabled = false
+        if let _ = Settings.instance.hsReplayUploadToken {
+            replaysMenu?.enabled = HSReplayManager.instance.replays.count > 0
+            
+            HSReplayManager.instance.replays.sort({
+                $0.0.date.compare($0.1.date) == NSComparisonResult.OrderedAscending
+            }).take(10).forEach({
+                let name = String(format: "%@ vs %@", $0.deck, $0.against)
+                if let item = replaysMenu?.submenu?.addItemWithTitle(name,
+                    action: #selector(AppDelegate.showReplay(_:)),
+                    keyEquivalent: "") {
+                    item.representedObject = $0.replayId
+                }
+            })
+            
+        }
         
-        
-
         let settings = Settings.instance
         let windowMenu = mainMenu?.itemWithTitle(NSLocalizedString("Window", comment: ""))
         let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString("Lock windows",
             comment: ""))
         item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows",
                                         comment: "")
+    }
+    
+    func showReplay(sender: NSMenuItem) {
+        if let replayId = sender.representedObject as? String {
+            let url = NSURL(string: "\(HSReplay.baseUrl)/uploads/upload/\(replayId)")
+            NSWorkspace.sharedWorkspace().openURL(url!)
+        }
     }
 
     func playDeck(sender: NSMenuItem) {

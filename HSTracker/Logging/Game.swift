@@ -479,6 +479,11 @@ class Game {
             HSReplayAPI.getUploadToken { (token) in
                 LogUploader.upload(self.powerLog, game: self, statistic: statistic) { result in
                     print("\(result)")
+                    if case UploadResult.successful(let replayId) = result {
+                        HSReplayManager.instance.saveReplay(replayId,
+                            deck: self.activeDeck?.name ?? "",
+                            against: "\(opponentName) - \(opponentClass)")
+                    }
                 }
             }
         }
