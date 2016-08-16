@@ -64,13 +64,13 @@ class UploadMetaData {
             if statistic.playerRank > 0 {
                 friendly.rank = statistic.playerRank
             }
-            if let legendRank = statistic.legendRank {
+            if let legendRank = statistic.legendRank where legendRank > 0 {
                 friendly.legendRank = legendRank
             }
-            if let opponentLegendRank = statistic.opponentLegendRank {
+            if let opponentLegendRank = statistic.opponentLegendRank where opponentLegendRank > 0 {
                 opposing.legendRank = opponentLegendRank
             }
-            if let opponentRank = statistic.opponentRank {
+            if let opponentRank = statistic.opponentRank where opponentRank > 0 {
                 opposing.rank = opponentRank
             }
         }

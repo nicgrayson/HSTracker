@@ -19,7 +19,7 @@ class HSReplayAPI {
             return
         }
         Alamofire.request(.POST, "\(HSReplay.tokensUrl)/",
-            parameters: ["api_token": apiKey, "test_data": true],
+            parameters: ["api_token": apiKey],
             encoding: .JSON, headers: [
                 "X-Api-Key": apiKey
             ])
