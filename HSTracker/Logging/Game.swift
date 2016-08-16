@@ -1344,6 +1344,7 @@ class Game {
             notification.informativeText =
                 NSLocalizedString("Your replay has been uploaded on HSReplay", comment: "")
             notification.userInfo = ["replayId": replayId]
+            notification.contentImage = NSImage(named: "hsreplay")
             break
         }
 
