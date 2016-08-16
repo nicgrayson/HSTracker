@@ -59,6 +59,11 @@ class HSReplayManager {
         }
     }
     
+    class func showReplay(replayId: String) {
+        let url = NSURL(string: "\(HSReplay.baseUrl)/uploads/upload/\(replayId)")
+        NSWorkspace.sharedWorkspace().openURL(url!)
+    }
+    
     struct Replay: Unboxable {
         var replayId: String
         var deck: String

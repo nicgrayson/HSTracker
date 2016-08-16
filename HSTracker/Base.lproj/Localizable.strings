@@ -133,3 +133,7 @@
 "The Climb" = "The Climb";
 "all_seasons" = "All seasons";
 "season" = "Season %@";
+
+"Vs %@" = "Vs %@";
+"%@ vs %@" = "%@ vs %@";
+"Your replay has been uploaded on HSReplay" = "Your replay has been uploaded on HSReplay";

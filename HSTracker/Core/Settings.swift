@@ -310,6 +310,10 @@ final class Settings {
         set { set("hsreplay_auto_synchronize_matches", value: newValue) }
         get { return get("hsreplay_auto_synchronize_matches") as? Bool ?? true }
     }
+    var showHSReplayPushNotification: Bool {
+        set { set("hsreplay_show_push_notification", value: newValue) }
+        get { return get("hsreplay_show_push_notification") as? Bool ?? true }
+    }
 
     // MARK: - Hearthstats
     var hearthstatsLogin: String? {

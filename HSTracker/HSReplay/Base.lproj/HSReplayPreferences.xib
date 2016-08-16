@@ -9,6 +9,7 @@
                 <outlet property="claimAccountButton" destination="PFc-eW-dQG" id="Bqf-Yw-BgV"/>
                 <outlet property="claimAccountInfo" destination="UdW-1g-XMj" id="pTI-6q-VjX"/>
                 <outlet property="hsReplayAccountStatus" destination="1W9-OR-1lE" id="3CP-oh-Jzh"/>
+                <outlet property="showPushNotification" destination="R7X-Vo-NSU" id="SUS-j2-fRy"/>
                 <outlet property="synchronizeMatches" destination="zU2-86-n1Q" id="Zxz-8w-y7c"/>
                 <outlet property="view" destination="c22-O7-iKe" id="W31-Sv-s8x"/>
             </connections>
@@ -29,14 +30,24 @@
                         <action selector="checkboxClicked:" target="-2" id="xeo-Uk-FyC"/>
                     </connections>
                 </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="R7X-Vo-NSU">
+                    <rect key="frame" x="18" y="216" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show upload notification" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="a4D-nA-Vqz">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="pHL-Ks-v6p"/>
+                    </connections>
+                </button>
                 <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="UbW-mX-Jca">
-                    <rect key="frame" x="20" y="216" width="440" height="5"/>
+                    <rect key="frame" x="20" y="207" width="440" height="5"/>
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <font key="titleFont" metaFont="system"/>
                 </box>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1W9-OR-1lE">
-                    <rect key="frame" x="18" y="193" width="444" height="17"/>
+                    <rect key="frame" x="18" y="184" width="444" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="JsZ-J6-FKG">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -44,7 +55,7 @@
                     </textFieldCell>
                 </textField>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cYC-b2-h3Y">
-                    <rect key="frame" x="14" y="157" width="128" height="32"/>
+                    <rect key="frame" x="14" y="148" width="128" height="32"/>
                     <buttonCell key="cell" type="push" title="Claim Account" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PFc-eW-dQG">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -54,7 +65,7 @@
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UdW-1g-XMj">
-                    <rect key="frame" x="18" y="122" width="444" height="34"/>
+                    <rect key="frame" x="18" y="113" width="444" height="34"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser." id="alf-8N-P9t">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -63,18 +74,21 @@
                 </textField>
             </subviews>
             <constraints>
+                <constraint firstItem="R7X-Vo-NSU" firstAttribute="top" secondItem="zU2-86-n1Q" secondAttribute="bottom" constant="6" symbolic="YES" id="0gA-tC-Tko"/>
                 <constraint firstAttribute="trailing" secondItem="UbW-mX-Jca" secondAttribute="trailing" constant="20" symbolic="YES" id="7If-MU-6t3"/>
                 <constraint firstItem="zU2-86-n1Q" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" symbolic="YES" id="ET0-4I-2pO"/>
                 <constraint firstItem="1W9-OR-1lE" firstAttribute="top" secondItem="UbW-mX-Jca" secondAttribute="bottom" constant="8" symbolic="YES" id="Fqr-ws-awl"/>
                 <constraint firstItem="UdW-1g-XMj" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="LCK-u0-OqI"/>
                 <constraint firstItem="cYC-b2-h3Y" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="O4c-O4-Ebk"/>
+                <constraint firstAttribute="trailing" secondItem="R7X-Vo-NSU" secondAttribute="trailing" constant="20" symbolic="YES" id="QAj-qh-2dr"/>
                 <constraint firstItem="UbW-mX-Jca" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="Td8-eN-5Qd"/>
+                <constraint firstItem="R7X-Vo-NSU" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="Yeg-Og-rjc"/>
+                <constraint firstItem="UbW-mX-Jca" firstAttribute="top" secondItem="R7X-Vo-NSU" secondAttribute="bottom" constant="8" symbolic="YES" id="YnP-I7-5xO"/>
                 <constraint firstAttribute="trailing" secondItem="UdW-1g-XMj" secondAttribute="trailing" constant="20" symbolic="YES" id="e52-0V-K0w"/>
                 <constraint firstItem="zU2-86-n1Q" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="fzT-xc-vDd"/>
                 <constraint firstItem="UdW-1g-XMj" firstAttribute="top" secondItem="cYC-b2-h3Y" secondAttribute="bottom" constant="8" symbolic="YES" id="hgh-kq-jpE"/>
                 <constraint firstAttribute="trailing" secondItem="1W9-OR-1lE" secondAttribute="trailing" constant="20" symbolic="YES" id="oe8-tX-1gZ"/>
                 <constraint firstItem="1W9-OR-1lE" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="sEX-E8-9v1"/>
-                <constraint firstItem="UbW-mX-Jca" firstAttribute="top" secondItem="zU2-86-n1Q" secondAttribute="bottom" constant="19" id="ts8-at-EkZ"/>
                 <constraint firstAttribute="trailing" secondItem="zU2-86-n1Q" secondAttribute="trailing" constant="20" symbolic="YES" id="w9o-TS-HvD"/>
                 <constraint firstItem="cYC-b2-h3Y" firstAttribute="top" secondItem="1W9-OR-1lE" secondAttribute="bottom" constant="8" symbolic="YES" id="yME-jc-MUc"/>
             </constraints>

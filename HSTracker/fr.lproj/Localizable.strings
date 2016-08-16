@@ -131,3 +131,7 @@
 "The Climb" = "La montée";
 "all_seasons" = "Toutes les saisons";
 "season" = "Saison %@";
+
+"Vs %@" = "Contre %@";
+"%@ vs %@" = "%@ contre %@";
+"Your replay has been uploaded on HSReplay" = "Votre replay a été sauvegardé sur HSReplay";

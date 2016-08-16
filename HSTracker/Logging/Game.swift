@@ -10,14 +10,6 @@
 
 import Foundation
 import CleanroomLogger
-import Wrap
-
-enum PlayerType: Int, WrappableEnum {
-    case Player, Opponent, DeckManager, Secrets, CardList, Hero
-}
-enum NotificationType {
-    case GameStart, TurnStart, OpponentConcede
-}
 
 class Game {
     // MARK: - vars
@@ -371,9 +363,9 @@ class Game {
             return
         }
 
-        if let deck = activeDeck,
-            opponentName = opponent.name,
-            opponentClass = opponent.playerClass {
+        if let opponentName = opponent.name,
+            opponentClass = opponent.playerClass,
+            playerClass = player.playerClass {
             
             var result: [Int: Int] = [:]
             opponentRanks.forEach({ result[$0] = (result[$0] ?? 0) + 1 })
@@ -400,17 +392,17 @@ class Game {
                     if alert.runModal() == NSAlertFirstButtonReturn {
                         note = input.string ?? ""
                     }
-                    self?.saveMatch(deck,
-                                   rank: currentRank,
+                    self?.saveMatch(currentRank,
                                    note: note,
+                                   playerClass: playerClass,
                                    opponentName: opponentName,
                                    opponentClass: opponentClass,
                                    opponentRank: opponentRank)
                 }
             } else {
-                saveMatch(deck,
-                          rank: currentRank,
+                saveMatch(currentRank,
                           note: note,
+                          playerClass: playerClass,
                           opponentName: opponentName,
                           opponentClass: opponentClass,
                           opponentRank: opponentRank)
@@ -418,9 +410,8 @@ class Game {
         }
     }
     
-    private func saveMatch(deck: Deck, rank: Int, note: String,
-                           opponentName: String, opponentClass: CardClass,
-                           opponentRank: Int) {
+    private func saveMatch(rank: Int, note: String, playerClass: CardClass,
+                           opponentName: String, opponentClass: CardClass, opponentRank: Int) {
         let statistic = Statistic()
         statistic.opponentName = opponentName
         statistic.opponentClass = opponentClass
@@ -452,24 +443,27 @@ class Game {
             cards[$0.id] = $0.count
         })
         statistic.cards = cards
-        deck.addStatistic(statistic)
-        Decks.instance.update(deck)
         
-        if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
-            do {
-                if currentGameMode == .Arena {
-                    try HearthstatsAPI.postArenaMatch(self, deck: deck, stat: statistic)
-                } else if currentGameMode != .Brawl {
-                    try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
+        if let deck = activeDeck {
+            deck.addStatistic(statistic)
+            Decks.instance.update(deck)
+            
+            if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
+                do {
+                    if currentGameMode == .Arena {
+                        try HearthstatsAPI.postArenaMatch(self, deck: deck, stat: statistic)
+                    } else if currentGameMode != .Brawl {
+                        try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
+                    }
+                } catch {
+                    Log.error?.message("Hearthstats error : \(error)")
                 }
-            } catch {
-                Log.error?.message("Hearthstats error : \(error)")
             }
         }
         
         if TrackOBotAPI.isLogged() && Settings.instance.trackobotSynchronizeMatches {
             do {
-                try TrackOBotAPI.postMatch(self, deck: deck, stat: statistic)
+                try TrackOBotAPI.postMatch(self, playerClass: playerClass, stat: statistic)
             } catch {
                 Log.error?.message("Track-o-Bot error : \(error)")
             }
@@ -478,11 +472,13 @@ class Game {
         if Settings.instance.hsReplaySynchronizeMatches {
             HSReplayAPI.getUploadToken { (token) in
                 LogUploader.upload(self.powerLog, game: self, statistic: statistic) { result in
-                    print("\(result)")
                     if case UploadResult.successful(let replayId) = result {
+                        let opClass = NSLocalizedString(opponentClass.rawValue.lowercaseString,
+                            comment: "")
                         HSReplayManager.instance.saveReplay(replayId,
                             deck: self.activeDeck?.name ?? "",
-                            against: "\(opponentName) - \(opponentClass)")
+                            against: "\(opponentName) - \(opClass)")
+                        self.showNotification(.HSReplayPush(replayId: replayId))
                     }
                 }
             }
@@ -1323,32 +1319,34 @@ class Game {
     }
 
      func showNotification(type: NotificationType) {
-        if Hearthstone.instance.hearthstoneActive {
-            return
-        }
-
+        let notification = NSUserNotification()
         let settings = Settings.instance
-        guard type == .GameStart && settings.notifyGameStart
-            || type == .OpponentConcede && settings.notifyOpponentConcede
-            || type == .TurnStart && settings.notifyTurnStart else {
-            return
-        }
-
-        let title: String, info: String
 
         switch type {
         case .GameStart:
-            title = NSLocalizedString("Hearthstone", comment: "")
-            info = NSLocalizedString("Your game begins", comment: "")
+            if !settings.notifyGameStart { return }
+            notification.title = NSLocalizedString("Hearthstone", comment: "")
+            notification.informativeText = NSLocalizedString("Your game begins", comment: "")
+        
         case .OpponentConcede:
-            title = NSLocalizedString("Victory", comment: "")
-            info = NSLocalizedString("Your opponent have conceded", comment: "")
+            if !settings.notifyOpponentConcede { return }
+            notification.title = NSLocalizedString("Victory", comment: "")
+            notification.informativeText = NSLocalizedString("Your opponent have conceded",
+                                                             comment: "")
         case .TurnStart:
-            title = NSLocalizedString("Hearthstone", comment: "")
-            info = NSLocalizedString("It's your turn to play", comment: "")
+            if !settings.notifyTurnStart { return }
+            notification.title = NSLocalizedString("Hearthstone", comment: "")
+            notification.informativeText = NSLocalizedString("It's your turn to play", comment: "")
+        
+        case .HSReplayPush(let replayId):
+            if !settings.showHSReplayPushNotification { return }
+            notification.title = NSLocalizedString("HSReplay", comment: "")
+            notification.informativeText =
+                NSLocalizedString("Your replay has been uploaded on HSReplay", comment: "")
+            notification.userInfo = ["replayId": replayId]
+            break
         }
 
-        (NSApplication.sharedApplication().delegate as? AppDelegate)?
-            .sendNotification(title, info: info)
+        NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notification)
     }
 }

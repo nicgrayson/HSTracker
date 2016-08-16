@@ -14,12 +14,14 @@ class HSReplayPreferences: NSViewController {
     @IBOutlet weak var hsReplayAccountStatus: NSTextField!
     @IBOutlet weak var claimAccountButton: NSButtonCell!
     @IBOutlet weak var claimAccountInfo: NSTextField!
+    @IBOutlet weak var showPushNotification: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let settings = Settings.instance
         
         synchronizeMatches.state = settings.hsReplaySynchronizeMatches ? NSOnState : NSOffState
+        showPushNotification.state = settings.showHSReplayPushNotification ? NSOnState : NSOffState
         if let username = Settings.instance.hsReplayUsername {
             hsReplayAccountStatus.stringValue =
                 String(format: NSLocalizedString("Connected as %@", comment: ""), username)
@@ -36,11 +38,15 @@ class HSReplayPreferences: NSViewController {
         
         if sender == synchronizeMatches {
             settings.hsReplaySynchronizeMatches = synchronizeMatches.state == NSOnState
+        } else if sender == showPushNotification {
+            settings.showHSReplayPushNotification = showPushNotification.state == NSOnState
         }
     }
     
     @IBAction func claimAccount(sender: AnyObject) {
-        HSReplayAPI.claimAccount()
+        HSReplayAPI.getUploadToken { _ in
+            HSReplayAPI.claimAccount()
+        }
     }
 }
 

@@ -12,7 +12,7 @@ import MASPreferences
 import HockeySDK
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate {
 
     var appWillRestart = false
     var splashscreen: Splashscreen?
@@ -558,9 +558,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             replaysMenu?.enabled = HSReplayManager.instance.replays.count > 0
             
             HSReplayManager.instance.replays.sort({
-                $0.0.date.compare($0.1.date) == NSComparisonResult.OrderedAscending
+                $0.0.date.compare($0.1.date) == .OrderedDescending
             }).take(10).forEach({
-                let name = String(format: "%@ vs %@", $0.deck, $0.against)
+                let name: String
+                if $0.deck.isEmpty {
+                    name = String(format: "Vs %@", $0.against)
+                } else {
+                    name = String(format: "%@ vs %@", $0.deck, $0.against)
+                }
                 if let item = replaysMenu?.submenu?.addItemWithTitle(name,
                     action: #selector(AppDelegate.showReplay(_:)),
                     keyEquivalent: "") {
@@ -580,8 +585,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func showReplay(sender: NSMenuItem) {
         if let replayId = sender.representedObject as? String {
-            let url = NSURL(string: "\(HSReplay.baseUrl)/uploads/upload/\(replayId)")
-            NSWorkspace.sharedWorkspace().openURL(url!)
+            HSReplayManager.showReplay(replayId)
         }
     }
 
@@ -703,20 +707,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 .activateFileViewerSelectingURLs([NSURL(fileURLWithPath: path)])
         }
     }
-
-    // MARK: NSUserNotificationCenterDelegate
-    func sendNotification(title: String, info: String) {
-        let notification = NSUserNotification()
-        notification.title = title
-        notification.informativeText = info
-        NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notification)
-    }
-
-    func userNotificationCenter(center: NSUserNotificationCenter,
-                                shouldPresentNotification notification: NSUserNotification)
-        -> Bool {
-        return true
-    }
 }
 
 extension AppDelegate: SUUpdaterDelegate {
@@ -750,5 +740,22 @@ extension AppDelegate: BITHockeyManagerDelegate {
         }
 
         return ""
+    }
+}
+
+// MARK: NSUserNotificationCenterDelegate
+extension AppDelegate: NSUserNotificationCenterDelegate {
+    func userNotificationCenter(center: NSUserNotificationCenter,
+                                shouldPresentNotification notification: NSUserNotification)
+        -> Bool {
+            return true
+    }
+    
+    func userNotificationCenter(center: NSUserNotificationCenter,
+                                didActivateNotification notification: NSUserNotification) {
+
+        if let replayId = notification.userInfo?["replay"] as? String {
+            HSReplayManager.showReplay(replayId)
+        }
     }
 }
