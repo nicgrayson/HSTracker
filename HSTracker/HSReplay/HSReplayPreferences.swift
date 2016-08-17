@@ -15,6 +15,7 @@ class HSReplayPreferences: NSViewController {
     @IBOutlet weak var claimAccountButton: NSButtonCell!
     @IBOutlet weak var claimAccountInfo: NSTextField!
     @IBOutlet weak var showPushNotification: NSButton!
+    private var getAccountTimer: NSTimer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,14 +23,12 @@ class HSReplayPreferences: NSViewController {
         
         synchronizeMatches.state = settings.hsReplaySynchronizeMatches ? NSOnState : NSOffState
         showPushNotification.state = settings.showHSReplayPushNotification ? NSOnState : NSOffState
-        if let username = Settings.instance.hsReplayUsername {
-            hsReplayAccountStatus.stringValue =
-                String(format: NSLocalizedString("Connected as %@", comment: ""), username)
-            claimAccountInfo.enabled = false
-            claimAccountButton.enabled = false
-        } else {
-            hsReplayAccountStatus.stringValue = NSLocalizedString("Account status : Anonymous",
-                                                                  comment: "")
+        updateStatus()
+    }
+    
+    override func viewDidDisappear() {
+        if let timer = getAccountTimer {
+            timer.invalidate()
         }
     }
     
@@ -46,6 +45,33 @@ class HSReplayPreferences: NSViewController {
     @IBAction func claimAccount(sender: AnyObject) {
         HSReplayAPI.getUploadToken { _ in
             HSReplayAPI.claimAccount()
+            
+            self.getAccountTimer = NSTimer.scheduledTimerWithTimeInterval(5,
+                target: self,
+                selector: #selector(self.checkAccountInfo),
+                userInfo: nil,
+                repeats: true)
+        }
+    }
+    
+    @objc private func checkAccountInfo() {
+        HSReplayAPI.updateAccountStatus() { (status) in
+            if status {
+                self.getAccountTimer?.invalidate()
+            }
+            self.updateStatus()
+        }
+    }
+    
+    private func updateStatus() {
+        if let username = Settings.instance.hsReplayUsername {
+            hsReplayAccountStatus.stringValue =
+                String(format: NSLocalizedString("Connected as %@", comment: ""), username)
+            claimAccountInfo.enabled = false
+            claimAccountButton.enabled = false
+        } else {
+            hsReplayAccountStatus.stringValue = NSLocalizedString("Account status : Anonymous",
+                                                                  comment: "")
         }
     }
 }

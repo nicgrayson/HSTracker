@@ -65,7 +65,7 @@ class HSReplayAPI {
         }
     }
     
-    static func updateAccountStatus() {
+    static func updateAccountStatus(handle: Bool -> ()) {
         guard let token = Settings.instance.hsReplayUploadToken else {
             Log.error?.message("Authorization token not set yet")
             return
@@ -88,9 +88,12 @@ class HSReplayAPI {
                         Settings.instance.hsReplayId = user["id"] as? Int ?? 0
                         Log.info?.message("id=\(Settings.instance.hsReplayId), "
                             + "Username=\(Settings.instance.hsReplayUsername)")
+                        handle(true)
+                        return
                     }
                 }
-                // TODO error handling
+                
+                handle(false)
         }
     }
 }
