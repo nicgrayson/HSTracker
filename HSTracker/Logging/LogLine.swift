@@ -28,10 +28,10 @@ struct LogLine: CustomStringConvertible {
         self.time = self.dynamicType.parseTime(line)
         self.include = include
     }
-
-    static func parseTime(line: String) -> Double {
+    
+    static func parseTimeAsDate(line: String) -> NSDate {
         guard line.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 20 else {
-            return NSDate().timeIntervalSince1970
+            return NSDate()
         }
 
         let fromLine = line.substringWithRange(2, location: 16)
@@ -54,9 +54,13 @@ struct LogLine: CustomStringConvertible {
             if date > NSDate() {
                 date.addDays(-1)
             }
-            return date.timeIntervalSince1970
+            return date
         }
-        return NSDate().timeIntervalSince1970
+        return NSDate()
+    }
+    
+    static func parseTime(line: String) -> Double {
+        return parseTimeAsDate(line).timeIntervalSince1970
     }
 
     var description: String {

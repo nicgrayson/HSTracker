@@ -35,24 +35,29 @@ class UploadMetaData {
     var player1: Player = Player()
     var player2: Player = Player()
     
-    class func generate(logLines: [String], game: Game?, statistic: Statistic?) -> UploadMetaData {
-        return UploadMetaData(log: logLines, game: game, statistic: statistic)
-    }
-    
-    private init(log: [String], game: Game?, statistic: Statistic?) {
+    init(log: [String], game: Game?, statistic: Statistic?, gameStart: NSDate? = nil) {
         self.log = log
         self.game = game
         self.statistic = statistic
         fillPlayerData()
         
-        if let date = statistic?.date {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.timeZone = NSTimeZone(name: "UTC")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+
+        self.friendlyPlayerId = self.game?.player.id ?? 0 > 0 ? self.game?.player.id ?? nil
+            : (self._friendlyPlayerId > 0 ? self._friendlyPlayerId : nil)
+        
+        var date: NSDate? = nil
+        if let _date = statistic?.date {
+            date = _date
+        } else if let _date = gameStart {
+            date = _date
+        }
+        
+        if let date = date {
             self.hearthstoneBuild = BuildDates.getByDate(date)
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.timeZone = NSTimeZone(name: "UTC")
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
             self.matchStart = dateFormatter.stringFromDate(date)
-            self.friendlyPlayerId = self.game?.player.id ?? 0 > 0 ? self.game?.player.id ?? nil
-                    : (self._friendlyPlayerId > 0 ? self._friendlyPlayerId : nil)
         }
     }
 

@@ -10,12 +10,89 @@ import Foundation
 import CleanroomLogger
 import Wrap
 import Alamofire
+import ZipArchive
 
 class LogUploader {
     private static var inProgress: [UploaderItem] = []
     
+    static func upload(filename: String, completion: UploadResult -> ()) {
+        guard let tmp = ReplayMaker.tmpReplayDir() else {
+            completion(.failed(error: "Can not get tmp dir"))
+            return
+        }
+    
+        if !SSZipArchive.unzipFileAtPath(filename, toDestination: tmp) {
+            completion(.failed(error: "Can not unzip \(filename)"))
+            return
+        }
+        
+        let output = "\(tmp)/output_log.txt"
+        if !NSFileManager.defaultManager().fileExistsAtPath(output) {
+            completion(.failed(error: "Can not find \(output)"))
+            return
+        }
+        do {
+            let content = try String(contentsOfURL: NSURL(fileURLWithPath: output))
+            let lines = content.componentsSeparatedByString("\n")
+            if lines.isEmpty {
+                completion(.failed(error: "Log is empty"))
+                return
+            }
+            
+            if lines.first?.startsWith("[") ?? true {
+                completion(.failed(error: "Output log not supported"))
+                return
+            }
+            if lines.first?.contains("PowerTaskList.") ?? true {
+                completion(.failed(error: "PowerTaskList is not supported"))
+                return
+            }
+            if !lines.any({ $0.contains("CREATE_GAME") }) {
+                completion(.failed(error: "'CREATE_GAME' not found"))
+                return
+            }
+            
+            var date: NSDate? = nil
+            do {
+                let attr: NSDictionary? = try NSFileManager.defaultManager()
+                    .attributesOfItemAtPath(output)
+                
+                if let _attr = attr {
+                    date = _attr.fileCreationDate()
+                }
+            } catch {
+                print("\(error)")
+            }
+
+            guard let _ = date else {
+                completion(.failed(error: "Cannot find game start date"))
+                return
+            }
+            if let line = lines.first({ $0.contains("CREATE_GAME") }) {
+                let gameStart = LogLine.parseTimeAsDate(line)
+                date = NSDate.NSDateFromYear(year: date!.year,
+                                             month: date!.month,
+                                             day: date!.day,
+                                             hour: gameStart.hour,
+                                             minute: gameStart.minute,
+                                             second: gameStart.second)
+            }
+            
+            self.upload(lines, game: nil, statistic: nil, gameStart: date) { (result) in
+                do {
+                    try NSFileManager.defaultManager().removeItemAtPath(output)
+                } catch {
+                    Log.error?.message("Can not remove tmp files")
+                }
+                completion(result)
+            }
+        } catch {
+            return completion(.failed(error: "Can not read \(output)"))
+        }
+    }
+    
     static func upload(logLines: [String], game: Game?, statistic: Statistic?,
-                       completion: UploadResult -> ()) {
+                       gameStart: NSDate? = nil, completion: UploadResult -> ()) {
         guard let token = Settings.instance.hsReplayUploadToken else {
             Log.error?.message("Authorization token not set yet")
             completion(.failed(error: "Authorization token not set yet"))
@@ -29,16 +106,19 @@ class LogUploader {
             Log.info?.message("\(item.hash) already in progress. Waiting for it to complete...")
             completion(.failed(error:
                 "\(item.hash) already in progress. Waiting for it to complete..."))
-            return // what?
+            return
         }
         
         inProgress.append(item)
-        Log.info?.message("Uploading \(item.hash)")
         
         do {
-            let uploadMetaData = UploadMetaData.generate(logLines, game: game, statistic: statistic)
+            let uploadMetaData = UploadMetaData(log: logLines,
+                                                game: game,
+                                                statistic: statistic,
+                                                gameStart: gameStart)
             let metaData: [String : AnyObject] = try Wrap(uploadMetaData)
-            
+            Log.info?.message("Uploading \(item.hash) -> \(metaData)")
+
             let headers = [
                 "X-Api-Key": HSReplayAPI.apiKey,
                 "Authorization": "Token \(token)"

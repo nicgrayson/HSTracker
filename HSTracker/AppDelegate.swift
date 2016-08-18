@@ -588,6 +588,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             HSReplayManager.showReplay(replayId)
         }
     }
+    
+    @IBAction func importReplay(sender: NSMenuItem) {
+        let panel = NSOpenPanel()
+        if let path = ReplayMaker.replayDir() {
+            panel.directoryURL = NSURL(fileURLWithPath: path)
+        }
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowedFileTypes = ["hdtreplay"]
+        panel.beginWithCompletionHandler { (returnCode) in
+            if returnCode == NSFileHandlingPanelOKButton {
+                for filename in panel.URLs {
+                    if let path = filename.path {
+                        LogUploader.upload(path, completion: { (result) in
+                            if case UploadResult.successful(let replayId) = result {
+                                HSReplayManager.showReplay(replayId)
+                            }
+                        })
+                    }
+                }
+            }
+        }
+    }
 
     func playDeck(sender: NSMenuItem) {
         if let deck = sender.representedObject as? Deck {
@@ -699,10 +723,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }*/
     
     @IBAction func openReplayDirectory(sender: AnyObject) {
-        if let appSupport = NSSearchPathForDirectoriesInDomains(
-            .ApplicationSupportDirectory, .UserDomainMask, true).first {
-            
-            let path = "\(appSupport)/HSTracker/replays"
+        if let path = ReplayMaker.replayDir() {
             NSWorkspace.sharedWorkspace()
                 .activateFileViewerSelectingURLs([NSURL(fileURLWithPath: path)])
         }
