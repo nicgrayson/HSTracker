@@ -14,7 +14,12 @@ class CardHud: NSView {
     var entity: Entity?
     var card: Card?
     
-    private var trackingArea: NSTrackingArea?
+    private lazy var trackingArea: NSTrackingArea = {
+        return NSTrackingArea(rect: NSRect.zero,
+                              options: [.InVisibleRect, .ActiveAlways, .MouseEnteredAndExited],
+                              owner: self,
+                              userInfo: nil)
+    }()
     
     private let cardMarkerFrame = NSRect(x: 1, y: 7, width: 32, height: 32)
     private let iconFrame = NSRect(x: 20, y: 3, width: 16, height: 16)
@@ -101,24 +106,11 @@ class CardHud: NSView {
     }
 
     // MARK: - mouse hover
-    func ensureTrackingArea() {
-        if trackingArea == nil {
-            trackingArea = NSTrackingArea(rect: NSZeroRect,
-                                          options: [NSTrackingAreaOptions.InVisibleRect,
-                                            NSTrackingAreaOptions.ActiveAlways,
-                                            NSTrackingAreaOptions.MouseEnteredAndExited],
-                                          owner: self,
-                                          userInfo: nil)
-        }
-    }
-
     override func updateTrackingAreas() {
         super.updateTrackingAreas()
-
-        ensureTrackingArea()
-
-        if !self.trackingAreas.contains(trackingArea!) {
-            self.addTrackingArea(trackingArea!)
+        
+        if !self.trackingAreas.contains(trackingArea) {
+            self.addTrackingArea(trackingArea)
         }
     }
 

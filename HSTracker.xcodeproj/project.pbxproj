@@ -57,6 +57,7 @@
 		4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4335543C1D5FAF0300277B27 /* HSReplayPreferences.xib */; };
 		433554561D62EE1200277B27 /* PlayerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554551D62EE1200277B27 /* PlayerType.swift */; };
 		433554581D62EE2D00277B27 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554571D62EE2D00277B27 /* NotificationType.swift */; };
+		4335545B1D65944700277B27 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4335545A1D65944700277B27 /* Toast.swift */; };
 		434106A41C9868620045655A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A11C9868620045655A /* Assets.xcassets */; };
 		434106A51C9868620045655A /* Classes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A21C9868620045655A /* Classes.xcassets */; };
 		4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
@@ -468,6 +469,7 @@
 		4335544E1D5FBDFB00277B27 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		433554551D62EE1200277B27 /* PlayerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerType.swift; sourceTree = "<group>"; };
 		433554571D62EE2D00277B27 /* NotificationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
+		4335545A1D65944700277B27 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		434106A11C9868620045655A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		434106A21C9868620045655A /* Classes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Classes.xcassets; sourceTree = "<group>"; };
 		434910441D09505100B22DB2 /* BoardDamage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardDamage.xib; sourceTree = "<group>"; };
@@ -765,6 +767,14 @@
 				433554311D5F6B3600277B27 /* module.modulemap */,
 			);
 			path = zlib;
+			sourceTree = "<group>";
+		};
+		433554591D65940300277B27 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				4335545A1D65944700277B27 /* Toast.swift */,
+			);
+			path = Toast;
 			sourceTree = "<group>";
 		};
 		434106A01C9868620045655A /* Assets */ = {
@@ -1096,6 +1106,7 @@
 		439C7ECD1C777FA900D29859 /* UIs */ = {
 			isa = PBXGroup;
 			children = (
+				433554591D65940300277B27 /* Toast */,
 				C99C0C961D0A6062000DD6FB /* StatsManager */,
 				436F5D0A1CFD5F4900DEB9A1 /* Cards */,
 				4360329E1C7D0113005F1893 /* DeckManager */,
@@ -1540,6 +1551,7 @@
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				4359BF7B1D51EED200F61993 /* TrackOBotLogin.swift in Sources */,
 				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
+				4335545B1D65944700277B27 /* Toast.swift in Sources */,
 				C99C0C991D0A6079000DD6FB /* Statistics.swift in Sources */,
 				434C2F341C7F4816001D1D91 /* HearthpwnDeckBuilder.swift in Sources */,
 				439C7EB61C777F8900D29859 /* CardMark.swift in Sources */,

@@ -135,7 +135,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Application init
     func loadSplashscreen() {
         splashscreen = Splashscreen(windowNibName: "Splashscreen")
-        let screenFrame = NSScreen.mainScreen()!.frame
+        let screenFrame = NSScreen.screens()!.first!.frame
         let splashscreenWidth: CGFloat = 350
         let splashscreenHeight: CGFloat = 250
 
@@ -283,7 +283,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         Hearthstone.instance.start()
-        NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
         
         let events = [
             "show_player_tracker": #selector(AppDelegate.showPlayerTracker(_:)),
@@ -302,8 +301,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                              name: event,
                                                              object: nil)
         }
-
-        Log.info?.message("HSTracker is now ready !")
 
         if let activeDeck = Settings.instance.activeDeck, deck = Decks.instance.byId(activeDeck) {
             Game.instance.setActiveDeck(deck)
@@ -761,22 +758,5 @@ extension AppDelegate: BITHockeyManagerDelegate {
         }
 
         return ""
-    }
-}
-
-// MARK: NSUserNotificationCenterDelegate
-extension AppDelegate: NSUserNotificationCenterDelegate {
-    func userNotificationCenter(center: NSUserNotificationCenter,
-                                shouldPresentNotification notification: NSUserNotification)
-        -> Bool {
-            return true
-    }
-    
-    func userNotificationCenter(center: NSUserNotificationCenter,
-                                didActivateNotification notification: NSUserNotification) {
-
-        if let replayId = notification.userInfo?["replay"] as? String {
-            HSReplayManager.showReplay(replayId)
-        }
     }
 }

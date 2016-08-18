@@ -1319,35 +1319,37 @@ class Game {
     }
 
      func showNotification(type: NotificationType) {
-        let notification = NSUserNotification()
         let settings = Settings.instance
 
         switch type {
         case .GameStart:
-            if !settings.notifyGameStart { return }
-            notification.title = NSLocalizedString("Hearthstone", comment: "")
-            notification.informativeText = NSLocalizedString("Your game begins", comment: "")
+            guard settings.notifyGameStart else { return }
+            
+            Toast.show(NSLocalizedString("Hearthstone", comment: ""),
+                       message: NSLocalizedString("Your game begins", comment: ""))
         
         case .OpponentConcede:
-            if !settings.notifyOpponentConcede { return }
-            notification.title = NSLocalizedString("Victory", comment: "")
-            notification.informativeText = NSLocalizedString("Your opponent have conceded",
-                                                             comment: "")
+            guard settings.notifyOpponentConcede else { return }
+            
+            Toast.show(NSLocalizedString("Victory", comment: ""),
+                       message: NSLocalizedString("Your opponent have conceded", comment: ""))
+            
         case .TurnStart:
-            if !settings.notifyTurnStart { return }
-            notification.title = NSLocalizedString("Hearthstone", comment: "")
-            notification.informativeText = NSLocalizedString("It's your turn to play", comment: "")
+            guard settings.notifyTurnStart else { return }
+            
+            Toast.show(NSLocalizedString("Hearthstone", comment: ""),
+                       message: NSLocalizedString("It's your turn to play", comment: ""))
         
         case .HSReplayPush(let replayId):
-            if !settings.showHSReplayPushNotification { return }
-            notification.title = NSLocalizedString("HSReplay", comment: "")
-            notification.informativeText =
-                NSLocalizedString("Your replay has been uploaded on HSReplay", comment: "")
-            notification.userInfo = ["replayId": replayId]
-            notification.contentImage = NSImage(named: "hsreplay")
-            break
-        }
+            guard settings.showHSReplayPushNotification else { return }
+            
+            Toast.show(NSLocalizedString("HSReplay", comment: ""),
+                       message: NSLocalizedString("Your replay has been uploaded on HSReplay",
+                        comment: ""),
+                       actionTitle: NSLocalizedString("View", comment: "")) {
+                        HSReplayManager.showReplay(replayId)
+            }
 
-        NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notification)
+        }
     }
 }

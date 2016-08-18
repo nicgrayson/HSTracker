@@ -24,7 +24,12 @@ protocol CardBarTheme {
 }
 
 class CardBar: NSView, CardBarTheme {
-    private var trackingArea: NSTrackingArea?
+    private lazy var trackingArea: NSTrackingArea = {
+        return NSTrackingArea(rect: NSRect.zero,
+                              options: [.InVisibleRect, .ActiveAlways, .MouseEnteredAndExited],
+                              owner: self,
+                              userInfo: nil)
+    }()
     private var delegate: CardCellHover?
 
     private var flashLayer: CALayer?
@@ -614,24 +619,11 @@ class CardBar: NSView, CardBarTheme {
     }
 
     // MARK: - mouse hover
-    func ensureTrackingArea() {
-        if trackingArea == nil {
-            trackingArea = NSTrackingArea(rect: NSZeroRect,
-                                          options: [NSTrackingAreaOptions.InVisibleRect,
-                                            NSTrackingAreaOptions.ActiveAlways,
-                                            NSTrackingAreaOptions.MouseEnteredAndExited],
-                                          owner: self,
-                                          userInfo: nil)
-        }
-    }
-
     override func updateTrackingAreas() {
         super.updateTrackingAreas()
 
-        ensureTrackingArea()
-
-        if !self.trackingAreas.contains(trackingArea!) {
-            self.addTrackingArea(trackingArea!)
+        if !self.trackingAreas.contains(trackingArea) {
+            self.addTrackingArea(trackingArea)
         }
     }
 
