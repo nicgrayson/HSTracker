@@ -34,12 +34,11 @@ class Toast {
     }()
    
     class func show(title: String, message: String? = nil, duration: Double? = 3,
-                    actionTitle: String? = nil, action: (() -> ())? = nil) {
+                    action: (() -> ())? = nil) {
         dispatch_async(dispatch_get_main_queue()) {
             let panel = ToastPanel(title: title,
                                    message: message,
                                    duration: duration,
-                                   actionTitle: actionTitle,
                                    action: action)
             
             toastWindow.add(panel)
@@ -57,14 +56,13 @@ class Toast {
         private var title: String?
         private var message: String?
         private var duration: Double = 3
-        private var actionTitle: String?
         private var action: (() -> ())?
         
         private let buttonWidth: CGFloat = 80
         private var inClick = false
         
         convenience init(title: String, message: String? = nil, duration: Double? = nil,
-                         actionTitle: String? = nil, action: (() -> ())? = nil) {
+                         action: (() -> ())? = nil) {
             self.init()
             
             self.title = title
@@ -76,7 +74,6 @@ class Toast {
                 self.duration = 6
             }
             
-            self.actionTitle = actionTitle
             self.action = action
             
             self.layerContentsRedrawPolicy = .OnSetNeedsDisplay
@@ -93,41 +90,11 @@ class Toast {
             let gradient = NSGradient(startingColor: starting, endingColor: ending)
             gradient?.drawInRect(dirtyRect, angle: 270)
             
-            var titleFrame = NSRect(x: 20, y: NSHeight(dirtyRect) - 30,
+            let titleFrame = NSRect(x: 20, y: NSHeight(dirtyRect) - 30,
                                     width: NSWidth(dirtyRect) - 40, height: 20)
-            var messageFrame = NSRect(x: 20, y: NSMinY(titleFrame) - 40,
+            let messageFrame = NSRect(x: 20, y: NSMinY(titleFrame) - 40,
                                     width: NSWidth(dirtyRect) - 40, height: 40)
-            
-            if let actionTitle = actionTitle {
-                var line = NSBezierPath()
-                line.moveToPoint(NSPoint(x: NSWidth(dirtyRect) - buttonWidth, y: NSMinX(dirtyRect)))
-                line.lineToPoint(NSPoint(x: NSWidth(dirtyRect) - buttonWidth, y: NSMaxX(dirtyRect)))
-                line.lineWidth = 1.0
-                NSColor.whiteColor().set()
-                line.stroke()
-                
-                line = NSBezierPath()
-                line.moveToPoint(NSPoint(x: NSWidth(dirtyRect) - buttonWidth - 2,
-                    y: NSMinX(dirtyRect)))
-                line.lineToPoint(NSPoint(x: NSWidth(dirtyRect) - buttonWidth - 2,
-                    y: NSMaxX(dirtyRect)))
-                line.lineWidth = 1.0
-                NSColor(red: 0.1647, green: 0.1647, blue: 0.1647, alpha: 1.0).set()
-                line.stroke()
-
-                let actionFrame = NSRect(x: NSWidth(dirtyRect) - buttonWidth + 2,
-                                         y: NSMidY(dirtyRect) - 15,
-                                         width: buttonWidth - 4, height: 20)
-                let attributes = TextAttributes()
-                    .font(NSFont(name: "ChunkFive", size: 14))
-                    .foregroundColor(.blackColor())
-                    .alignment(.Center)
-                NSAttributedString(string: actionTitle, attributes: attributes)
-                    .drawInRect(actionFrame)
-                
-                titleFrame.size.width -= buttonWidth + 2
-                messageFrame.size.width -= buttonWidth + 2
-            }
+           
             if let title = title {
                 let attributes = TextAttributes()
                     .font(NSFont(name: "ChunkFive", size: 16))
@@ -165,26 +132,15 @@ class Toast {
             }
         }
         
-        private var actionFrame: NSRect {
-            return NSRect(x: NSWidth(bounds) - buttonWidth + 2,
-                                     y: NSMinY(bounds),
-                                     width: buttonWidth - 4,
-                                     height: NSHeight(bounds))
-        }
-        
         private override func mouseDown(event: NSEvent) {
             guard let _ = self.action else { return }
             
-            let point = convertPoint(event.locationInWindow, fromView: nil)
-            guard actionFrame.contains(point) else { return }
             inClick = true
         }
         private override func mouseUp(event: NSEvent) {
             guard let _ = self.action else { return }
             guard inClick else { return }
             
-            let point = convertPoint(event.locationInWindow, fromView: nil)
-            guard actionFrame.contains(point) else { return }
             inClick = false
             action?()
             toastWindow.remove(self)

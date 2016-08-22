@@ -1345,8 +1345,7 @@ class Game {
             
             Toast.show(NSLocalizedString("HSReplay", comment: ""),
                        message: NSLocalizedString("Your replay has been uploaded on HSReplay",
-                        comment: ""),
-                       actionTitle: NSLocalizedString("View", comment: "")) {
+                        comment: "")) {
                         HSReplayManager.showReplay(replayId)
             }
 
