@@ -418,6 +418,13 @@ struct TagChangeActions {
                 game.proposeKeyPoint(.SecretPlayed, id: id, player: .Opponent)
             }
             
+        case .SETASIDE:
+            if controller == game.player.id {
+                game.playerCreateInSetAside(entity, turn: game.turnNumber())
+            } else if controller == game.opponent.id {
+                game.opponentCreateInSetAside(entity, turn: game.turnNumber())
+            }
+            
         default:
             // DDLogWarn("unhandled zone change(id = \(id)): \(prevValue) -> \(value) ")
             break

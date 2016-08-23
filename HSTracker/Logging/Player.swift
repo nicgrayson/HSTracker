@@ -424,6 +424,11 @@ final class Player {
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
+    
+    func createInSetAside(entity: Entity, turn: Int) {
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
+    }
 
     func boardToDeck(entity: Entity, turn: Int) {
         entity.info.turn = turn

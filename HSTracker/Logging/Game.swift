@@ -795,6 +795,10 @@ class Game {
     func playerRemoveFromPlay(entity: Entity, turn: Int) {
         player.removeFromPlay(entity, turn: turn)
     }
+    
+    func playerCreateInSetAside(entity: Entity, turn: Int) {
+        player.createInSetAside(entity, turn: turn)
+    }
 
     func playerHeroPower(cardId: String, turn: Int) {
         updateBoardAttack()
@@ -1012,6 +1016,10 @@ class Game {
 
     func opponentRemoveFromPlay(entity: Entity, turn: Int) {
         player.removeFromPlay(entity, turn: turn)
+    }
+    
+    func opponentCreateInSetAside(entity: Entity, turn: Int) {
+        opponent.createInSetAside(entity, turn: turn)
     }
 
     func opponentHeroPower(cardId: String, turn: Int) {
