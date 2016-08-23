@@ -99,6 +99,11 @@ class LogUploader {
             return
         }
         
+        if logLines.filter({ $0.contains("CREATE_GAME") }).count > 1 {
+            completion(.failed(error: "Log contains multiple games"))
+            return
+        }
+        
         let log = logLines.joinWithSeparator("\n")
         let item = UploaderItem(hash: log.hash)
         if inProgress.contains(item) {

@@ -33,12 +33,20 @@ struct LogLine: CustomStringConvertible {
         guard line.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 20 else {
             return NSDate()
         }
-
-        let fromLine = line.substringWithRange(2, location: 16)
-
+        
+        guard let fromLine = line.substringWithRange(2, location: 16)
+            .componentsSeparatedByString(" ").first else { return NSDate() }
+        
+        let format: String
+        if fromLine.characters.count == 8 {
+            format = "HH:mm:ss"
+        } else {
+            format = "HH:mm:ss.SSSS"
+        }
         let dateTime = NSDate(fromString: fromLine,
-                              inFormat: "HH:mm:ss.SSSS",
+                              inFormat: format,
                               timeZone: nil)
+        
         let today = NSDate()
         let dateComponents = NSDateComponents()
         dateComponents.year = today.year
@@ -47,9 +55,9 @@ struct LogLine: CustomStringConvertible {
         dateComponents.hour = dateTime.hour
         dateComponents.minute = dateTime.minute
         dateComponents.second = dateTime.second
-        dateComponents.nanosecond = dateTime.nanosecond
+        dateComponents.nanosecond = fromLine.characters.count == 8 ? 0 : dateTime.nanosecond
         dateComponents.timeZone = NSTimeZone(name: "UTC")
-
+        
         if let date = NSCalendar.currentCalendar().dateFromComponents(dateComponents) {
             if date > NSDate() {
                 date.addDays(-1)
