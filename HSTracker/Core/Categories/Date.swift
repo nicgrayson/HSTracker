@@ -11,11 +11,13 @@ import Foundation
 extension NSDate {
 
     var utcFormatted: String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return dateFormatter.stringFromDate(self)
+        return toDateTimeString(NSTimeZone(name: "UTC"))
     }
+    var millisecondsFormatted: String {
+        return self.toStringInFormat("yyyy-MM-dd HH:mm:ss.SSS",
+                                     inTimeZone: NSTimeZone(name: "UTC"))
+    }
+    
 
     convenience init(fromString: String, inFormat: String, timeZone: NSTimeZone? = nil) {
         let dateFormater = NSDateFormatter()
@@ -143,6 +145,7 @@ extension NSDate {
 
     public static func NSDateFromYear(year year: Int = -1, month: Int = -1, day: Int = -1,
                                            hour: Int = -1, minute: Int = -1, second: Int = -1,
+                                           nanosecond: Int = -1,
                                            timeZone: NSTimeZone? = nil) -> NSDate? {
         let dateComponents = NSDateComponents()
         if year >= -1 {
@@ -162,6 +165,9 @@ extension NSDate {
         }
         if second >= -1 {
             dateComponents.second = second
+        }
+        if nanosecond >= -1 {
+            dateComponents.nanosecond = nanosecond
         }
 
         if let timeZone = timeZone {
@@ -496,6 +502,11 @@ extension NSDate {
     public func diffInSeconds(fromDate: NSDate, absoluteValue: Bool = true) -> Int {
         let seconds = NSCalendar.currentCalendar().components(NSCalendarUnit.Second, fromDate: self, toDate: fromDate, options: []).second
         return absoluteValue ? abs(seconds) : seconds
+    }
+    
+    public func diffInNanosecond(fromDate: NSDate, absoluteValue: Bool = true) -> Int {
+        let nanoseconds = NSCalendar.currentCalendar().components(NSCalendarUnit.Nanosecond, fromDate: self, toDate: fromDate, options: []).nanosecond
+        return absoluteValue ? abs(nanoseconds) : nanoseconds
     }
 
     /* MODIFIERS */

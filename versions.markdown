@@ -1,3 +1,8 @@
+#### 0.17.5
+- HSTracker use its own notifications, they should not appear under decklist anymore
+- HSTracker can synchronize your games with HSReplay.net ! Enjoy your replays now !
+- Minor bugfixes
+
 #### 0.17.4.2
 - Correctly send the rank to Track-o-Bot
 

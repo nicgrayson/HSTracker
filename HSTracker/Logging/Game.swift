@@ -11,6 +11,18 @@
 import Foundation
 import CleanroomLogger
 
+struct PlayerTurn: Hashable {
+    let player: PlayerType
+    let turn: Int
+    
+    var hashValue: Int {
+    return player.rawValue.hashValue ^ turn.hashValue
+    }
+}
+func == (lhs: PlayerTurn, rhs: PlayerTurn) -> Bool {
+    return lhs.player == rhs.player && lhs.turn == rhs.turn
+}
+
 class Game {
     // MARK: - vars
     var currentTurn = 0
@@ -67,14 +79,17 @@ class Game {
     private var endGameStats = false
     var wasInProgress = false
     private var hasBeenConceded = false
-    var enqueueTime: Double = NSDate.distantPast().timeIntervalSince1970
+    var enqueueTime: NSDate = NSDate.distantPast()
+    private var lastCompetitiveSpiritCheck: Int = 0
+    private var lastTurnStart: [Int] = [0, 0]
+    private var turnQueue: Set<PlayerTurn> = Set()
     
     private var rankDetector = CVRankDetection()
     private var playerRanks: [Int] = []
     private var opponentRanks: [Int] = []
 
     private var lastCardsUpdateRequest = NSDate.distantPast().timeIntervalSince1970
-    private var lastGameStartTimestamp: Double = NSDate.distantPast().timeIntervalSince1970
+    private var lastGameStartTimestamp: NSDate = NSDate.distantPast()
 
     var playerEntity: Entity? {
         return entities.map { $0.1 }.firstWhere { $0.isPlayer }
@@ -171,6 +186,7 @@ class Game {
         endGameStats = false
         wasInProgress = false
         hasBeenConceded = false
+        lastTurnStart = [0, 0]
 
         player.reset()
         opponent.reset()
@@ -228,9 +244,9 @@ class Game {
     }
 
     // MARK: - game state
-    func gameStart(timestamp: Double) {
+    func gameStart(timestamp: NSDate) {
         if currentGameMode == .Practice && !isInMenu && !gameEnded
-            && lastGameStartTimestamp > NSDate.distantPast().timeIntervalSince1970
+            && lastGameStartTimestamp > NSDate.distantPast()
             && timestamp > lastGameStartTimestamp {
             adventureRestart()
         }
@@ -494,22 +510,75 @@ class Game {
         }
         return 0
     }
-
+    
+    func turnsInPlayChange(entity: Entity, turn: Int) {
+        guard let opponentEntity = opponentEntity else { return }
+        
+        if entity.isHero {
+            let player: PlayerType = opponentEntity.isCurrentPlayer ? .Opponent : .Player
+            if lastTurnStart[player.rawValue] >= turn {
+                return
+            }
+            lastTurnStart[player.rawValue] = turn
+            turnStart(player, turn: turn)
+            return
+        }
+        if turn <= lastCompetitiveSpiritCheck || !Settings.instance.autoGrayoutSecrets
+            || !entity.isMinion || !entity.isControlledBy(opponent.id)
+            || !opponentEntity.isCurrentPlayer {
+            return
+        }
+        lastCompetitiveSpiritCheck = turn
+        opponentSecrets?.setZero(CardIds.Secrets.Paladin.CompetitiveSpirit)
+        showSecrets(true)
+    }
+    
     func turnStart(player: PlayerType, turn: Int) {
-        Log.info?.message("Turn \(turn) start for player \(player) ")
+        if !isMulliganDone() {
+            Log.info?.message("--- Mulligan ---")
+        }
+        var turnNumber = turn
+        if turnNumber == 0 {
+            turnNumber += 1
+        }
+        turnQueue.insert(PlayerTurn(player: player, turn: turn))
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            while !self.isMulliganDone() {
+                NSThread.sleepForTimeInterval(0.1)
+            }
+            while let playerTurn = self.turnQueue.popFirst() {
+                self.handleTurnStart(playerTurn)
+            }
+        }
+    }
+    
+    func handleTurnStart(playerTurn: PlayerTurn) {
+        let player = playerTurn.player
+        Log.info?.message("Turn \(playerTurn.turn) start for player \(player) ")
+        
         if player == .Player {
             handleThaurissanCostReduction()
+        }
+        
+        if turnQueue.count > 0 {
+            return
+        }
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            TurnTimer.instance.setPlayer(player)
+        }
+        
+        if player == .Player && !isInMenu {
             showNotification(.TurnStart)
-            
+        }
+        
+        if player == .Player {
             // update opponent tracker in case of end of turn (C'Thun, draw, ...)
             updateOpponentTracker()
         } else {
             // update player tracker in case of end of turn (C'Thun, draw, ...)
             updatePlayerTracker()
-        }
-        
-        dispatch_async(dispatch_get_main_queue()) {
-            TurnTimer.instance.setPlayer(player)
         }
     }
 
@@ -1332,18 +1401,21 @@ class Game {
         switch type {
         case .GameStart:
             guard settings.notifyGameStart else { return }
+            if Hearthstone.instance.hearthstoneActive { return }
             
             Toast.show(NSLocalizedString("Hearthstone", comment: ""),
                        message: NSLocalizedString("Your game begins", comment: ""))
         
         case .OpponentConcede:
             guard settings.notifyOpponentConcede else { return }
+            if Hearthstone.instance.hearthstoneActive { return }
             
             Toast.show(NSLocalizedString("Victory", comment: ""),
                        message: NSLocalizedString("Your opponent have conceded", comment: ""))
             
         case .TurnStart:
             guard settings.notifyTurnStart else { return }
+            if Hearthstone.instance.hearthstoneActive { return }
             
             Toast.show(NSLocalizedString("Hearthstone", comment: ""),
                        message: NSLocalizedString("It's your turn to play", comment: ""))
