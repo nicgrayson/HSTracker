@@ -163,8 +163,8 @@ struct SizeHelper {
         
         let frame = NSRect(x: x,
                            y: offset,
-                           width: min(trackerWidth, width),
-                           height: min(100, NSHeight(hearthstoneWindow.frame) - offset))
+                           width: max(trackerWidth, width),
+                           height: max(100, NSHeight(hearthstoneWindow.frame) - offset))
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
     
