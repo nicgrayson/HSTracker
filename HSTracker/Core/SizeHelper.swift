@@ -149,10 +149,22 @@ struct SizeHelper {
     static private func trackerFrame(x: CGFloat) -> NSRect {
         // game menu
         let offset: CGFloat = 50
+        let width: CGFloat
+        switch Settings.instance.cardSize {
+        case .Small:
+            width = CGFloat(kSmallFrameWidth)
+            
+        case .Medium:
+            width = CGFloat(kMediumFrameWidth)
+            
+        default:
+            width = CGFloat(kFrameWidth)
+        }
+        
         let frame = NSRect(x: x,
                            y: offset,
-                           width: trackerWidth,
-                           height: NSHeight(hearthstoneWindow.frame) - offset)
+                           width: min(trackerWidth, width),
+                           height: min(100, NSHeight(hearthstoneWindow.frame) - offset))
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
     
