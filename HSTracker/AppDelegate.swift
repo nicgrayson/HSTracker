@@ -70,7 +70,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // init logger
         var loggers = [LogConfiguration]()
         #if DEBUG
-        let xcodeConfig = XcodeLogConfiguration(minimumSeverity: .Verbose,
+        let xcodeConfig = XcodeLogConfiguration(minimumSeverity: .verbose,
                                                 logToASL: false,
                                                 colorTable: HSTrackerColorTable(),
                                                 formatters: [HSTrackerLogFormatter()])
