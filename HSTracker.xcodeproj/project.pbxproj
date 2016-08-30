@@ -223,7 +223,6 @@
 		43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E81D5D0F5700451B6F /* LogLineZone.swift */; };
 		43C567EC1D5E314500451B6F /* HSReplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567EB1D5E314500451B6F /* HSReplay.swift */; };
 		43C567F51D5E342C00451B6F /* BuildDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567F41D5E342C00451B6F /* BuildDates.swift */; };
-		43C567F71D5E37B300451B6F /* LogValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567F61D5E37B300451B6F /* LogValidator.swift */; };
 		43C567FD1D5E448200451B6F /* HSReplayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567FC1D5E448200451B6F /* HSReplayManager.swift */; };
 		43C567FF1D5E4F9700451B6F /* HSReplayAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567FE1D5E4F9700451B6F /* HSReplayAPI.swift */; };
 		43C568011D5E584F00451B6F /* LogUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568001D5E584F00451B6F /* LogUploader.swift */; };
@@ -649,7 +648,6 @@
 		43C567E81D5D0F5700451B6F /* LogLineZone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogLineZone.swift; sourceTree = "<group>"; };
 		43C567EB1D5E314500451B6F /* HSReplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSReplay.swift; sourceTree = "<group>"; };
 		43C567F41D5E342C00451B6F /* BuildDates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuildDates.swift; sourceTree = "<group>"; };
-		43C567F61D5E37B300451B6F /* LogValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogValidator.swift; sourceTree = "<group>"; };
 		43C567FC1D5E448200451B6F /* HSReplayManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSReplayManager.swift; sourceTree = "<group>"; };
 		43C567FE1D5E4F9700451B6F /* HSReplayAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSReplayAPI.swift; sourceTree = "<group>"; };
 		43C568001D5E584F00451B6F /* LogUploader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogUploader.swift; sourceTree = "<group>"; };
@@ -1212,7 +1210,6 @@
 			isa = PBXGroup;
 			children = (
 				43C567F41D5E342C00451B6F /* BuildDates.swift */,
-				43C567F61D5E37B300451B6F /* LogValidator.swift */,
 			);
 			path = Converter;
 			sourceTree = "<group>";
@@ -1472,7 +1469,6 @@
 				436F5D0C1CFD5F6A00DEB9A1 /* CardBar.swift in Sources */,
 				433554351D5F6B9900277B27 /* NSData+GZIP.swift in Sources */,
 				43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */,
-				43C567F71D5E37B300451B6F /* LogValidator.swift in Sources */,
 				4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */,
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,
 				432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */,
