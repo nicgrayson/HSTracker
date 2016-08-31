@@ -871,6 +871,7 @@ class Game {
 
     func playerHeroPower(cardId: String, turn: Int) {
         updateBoardAttack()
+        player.heroPower(turn)
         Log.info?.message("Player Hero Power \(cardId) \(turn) ")
 
         if !Settings.instance.autoGrayoutSecrets {
@@ -1093,6 +1094,7 @@ class Game {
 
     func opponentHeroPower(cardId: String, turn: Int) {
         updateBoardAttack()
+        opponent.heroPower(turn)
         Log.info?.message("Opponent Hero Power \(cardId) \(turn) ")
     }
 
