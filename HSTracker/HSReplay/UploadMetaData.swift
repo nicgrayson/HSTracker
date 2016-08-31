@@ -40,10 +40,6 @@ class UploadMetaData {
         self.game = game
         self.statistic = statistic
         fillPlayerData()
-        
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
 
         self.friendlyPlayerId = self.game?.player.id ?? 0 > 0 ? self.game?.player.id ?? nil
             : (self._friendlyPlayerId > 0 ? self._friendlyPlayerId : nil)
@@ -57,7 +53,7 @@ class UploadMetaData {
         
         if let date = date {
             self.hearthstoneBuild = BuildDates.getByDate(date)
-            self.matchStart = dateFormatter.stringFromDate(date)
+            self.matchStart = date.toIso8601String()
         }
     }
 

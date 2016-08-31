@@ -33,6 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var preferences: MASPreferencesWindowController = {
         let preferences = MASPreferencesWindowController(viewControllers: [
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
+            UpdatePreferences(nibName: "UpdatePreferences", bundle: nil)!,
             GamePreferences(nibName: "GamePreferences", bundle: nil)!,
             TrackersPreferences(nibName: "TrackersPreferences", bundle: nil)!,
             PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil)!,
@@ -45,14 +46,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
+        let settings = Settings.instance
+        
         #if !DEBUG
-        sparkleUpdater.sendsSystemProfile = true
-        BITHockeyManager.sharedHockeyManager()
-            .configureWithIdentifier("2f0021b9bb1842829aa1cfbbd85d3bed")
-        BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
-        BITHockeyManager.sharedHockeyManager().debugLogEnabled = false
-        BITHockeyManager.sharedHockeyManager().delegate = self
-        BITHockeyManager.sharedHockeyManager().startManager()
+            var hockeyKey = "2f0021b9bb1842829aa1cfbbd85d3bed"
+            if settings.releaseChannel == .beta {
+                hockeyKey = "c8af7f051ae14d0eb67438f27c3d9dc1"
+            }
+            
+            let url = "https://rink.hockeyapp.net/api/2/apps/\(hockeyKey)"
+            sparkleUpdater.feedURL = NSURL(string: url)
+            sparkleUpdater.sendsSystemProfile = true
+            sparkleUpdater.automaticallyDownloadsUpdates = settings.automaticallyDownloadsUpdates
+            
+            BITHockeyManager.sharedHockeyManager().configureWithIdentifier(hockeyKey)
+            BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
+            BITHockeyManager.sharedHockeyManager().debugLogEnabled = false
+            BITHockeyManager.sharedHockeyManager().delegate = self
+            BITHockeyManager.sharedHockeyManager().startManager()
         #endif
 
         if let _ = NSUserDefaults.standardUserDefaults().objectForKey("hstracker_v2") {
@@ -64,8 +75,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSUserDefaults.standardUserDefaults().synchronize()
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hstracker_v2")
         }
-
-        let settings = Settings.instance
 
         // init logger
         var loggers = [LogConfiguration]()
@@ -84,7 +93,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     "\(path)/Logs/HSTracker",
                     withIntermediateDirectories: true,
                     attributes: nil)
-                let severity: LogSeverity = Settings.instance.logSeverity
+                let severity = Settings.instance.logSeverity
                 // swiftlint:disable line_length
                 let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
                                                                 daysToKeep: 7,

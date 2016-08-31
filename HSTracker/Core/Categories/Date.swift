@@ -300,6 +300,21 @@ extension NSDate {
     public func toCookieString(inTimeZone: NSTimeZone? = nil) -> String {
         return self.toStringInFormat("EEEE',' dd'-'MMM'-'yyyy HH':'mm':'ss z", inTimeZone: inTimeZone)
     }
+    
+    public func toLocalizedString(dateStyle dateStyle: NSDateFormatterStyle = .MediumStyle,
+                                            timeStyle: NSDateFormatterStyle = .MediumStyle,
+                                            inTimeZone: NSTimeZone? = nil) -> String {
+        let dateformater = NSDateFormatter()
+        dateformater.dateStyle = dateStyle
+        dateformater.timeStyle = timeStyle
+        dateformater.locale = NSLocale.currentLocale()
+        
+        if let timeZone = inTimeZone {
+            dateformater.timeZone = timeZone
+        }
+        
+        return dateformater.stringFromDate(self)
+    }
 
     /* COMPARISONS */
 
