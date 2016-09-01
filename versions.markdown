@@ -4,6 +4,7 @@
 - Trackers should not disappear again when they « auto-position trackers » is checked
 - Add a release channel for betas
 - Support for importing decks from http://www.hearthstonetopdeck.com
+- Add an option to export your deck to Hearthstone (This is a BETA feature !)
 - Minor bugfixes
 
 #### 0.17.4.2

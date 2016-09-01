@@ -139,6 +139,9 @@ class Tracker: NSWindowController {
             level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
         }
         self.window!.level = level
+        
+        //self.window!.level = Int(CGWindowLevelForKey(.MainMenuWindowLevelKey)) - 1
+        //self.window!.collectionBehavior = [.Stationary, .CanJoinAllSpaces, .FullScreenAuxiliary]
     }
 
     func hearthstoneActive(notification: NSNotification) {
