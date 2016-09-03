@@ -105,6 +105,11 @@ class LogUploader {
         }
         
         let log = logLines.joinWithSeparator("\n")
+        if logLines.isEmpty || log.trim().isEmpty {
+            Log.warning?.message("Log file is empty, skipping")
+            completion(.failed(error: "Log file is empty"))
+            return
+        }
         let item = UploaderItem(hash: log.hash)
         if inProgress.contains(item) {
             inProgress.append(item)
