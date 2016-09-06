@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="claimAccountButton" destination="PFc-eW-dQG" id="Bqf-Yw-BgV"/>
                 <outlet property="claimAccountInfo" destination="UdW-1g-XMj" id="pTI-6q-VjX"/>
+                <outlet property="disconnectButton" destination="y6L-Kw-KFY" id="hfI-ch-HrT"/>
                 <outlet property="hsReplayAccountStatus" destination="1W9-OR-1lE" id="3CP-oh-Jzh"/>
                 <outlet property="showPushNotification" destination="R7X-Vo-NSU" id="SUS-j2-fRy"/>
                 <outlet property="synchronizeMatches" destination="zU2-86-n1Q" id="Zxz-8w-y7c"/>
@@ -64,6 +65,16 @@
                         <action selector="claimAccount:" target="-2" id="qbd-Vw-8qY"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="y6L-Kw-KFY">
+                    <rect key="frame" x="264" y="148" width="202" height="32"/>
+                    <buttonCell key="cell" type="push" title="Disconnect from HSReplay" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Wij-ky-VUj">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="disconnectAccount:" target="-2" id="EOQ-kX-3wk"/>
+                    </connections>
+                </button>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UdW-1g-XMj">
                     <rect key="frame" x="18" y="113" width="444" height="34"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser." id="alf-8N-P9t">
@@ -82,6 +93,7 @@
                 <constraint firstItem="cYC-b2-h3Y" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="O4c-O4-Ebk"/>
                 <constraint firstAttribute="trailing" secondItem="R7X-Vo-NSU" secondAttribute="trailing" constant="20" symbolic="YES" id="QAj-qh-2dr"/>
                 <constraint firstItem="UbW-mX-Jca" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="Td8-eN-5Qd"/>
+                <constraint firstItem="y6L-Kw-KFY" firstAttribute="centerY" secondItem="cYC-b2-h3Y" secondAttribute="centerY" id="WWo-c4-VYf"/>
                 <constraint firstItem="R7X-Vo-NSU" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="Yeg-Og-rjc"/>
                 <constraint firstItem="UbW-mX-Jca" firstAttribute="top" secondItem="R7X-Vo-NSU" secondAttribute="bottom" constant="8" symbolic="YES" id="YnP-I7-5xO"/>
                 <constraint firstAttribute="trailing" secondItem="UdW-1g-XMj" secondAttribute="trailing" constant="20" symbolic="YES" id="e52-0V-K0w"/>
@@ -91,6 +103,7 @@
                 <constraint firstItem="1W9-OR-1lE" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="sEX-E8-9v1"/>
                 <constraint firstAttribute="trailing" secondItem="zU2-86-n1Q" secondAttribute="trailing" constant="20" symbolic="YES" id="w9o-TS-HvD"/>
                 <constraint firstItem="cYC-b2-h3Y" firstAttribute="top" secondItem="1W9-OR-1lE" secondAttribute="bottom" constant="8" symbolic="YES" id="yME-jc-MUc"/>
+                <constraint firstAttribute="trailing" secondItem="y6L-Kw-KFY" secondAttribute="trailing" constant="20" symbolic="YES" id="zJJ-s3-HlA"/>
             </constraints>
         </customView>
     </objects>

@@ -8,14 +8,18 @@
 
 import Foundation
 import MASPreferences
+import CleanroomLogger
 
 class HSReplayPreferences: NSViewController {
     @IBOutlet weak var synchronizeMatches: NSButton!
     @IBOutlet weak var hsReplayAccountStatus: NSTextField!
     @IBOutlet weak var claimAccountButton: NSButtonCell!
     @IBOutlet weak var claimAccountInfo: NSTextField!
+    @IBOutlet weak var disconnectButton: NSButton!
     @IBOutlet weak var showPushNotification: NSButton!
     private var getAccountTimer: NSTimer?
+    private var requests = 0
+    private let maxRequests = 10
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +31,7 @@ class HSReplayPreferences: NSViewController {
     }
     
     override func viewDidDisappear() {
-        if let timer = getAccountTimer {
-            timer.invalidate()
-        }
+        getAccountTimer?.invalidate()
     }
     
     @IBAction func checkboxClicked(sender: NSButton) {
@@ -42,10 +44,18 @@ class HSReplayPreferences: NSViewController {
         }
     }
     
+    @IBAction func disconnectAccount(sender: AnyObject) {
+        Settings.instance.hsReplayUsername = nil
+        Settings.instance.hsReplayId = nil
+        updateStatus()
+    }
+    
     @IBAction func claimAccount(sender: AnyObject) {
+        claimAccountButton.enabled = false
+        requests = 0
         HSReplayAPI.getUploadToken { _ in
             HSReplayAPI.claimAccount()
-            
+            self.getAccountTimer?.invalidate()
             self.getAccountTimer = NSTimer.scheduledTimerWithTimeInterval(5,
                 target: self,
                 selector: #selector(self.checkAccountInfo),
@@ -55,7 +65,13 @@ class HSReplayPreferences: NSViewController {
     }
     
     @objc private func checkAccountInfo() {
+        guard requests < maxRequests else {
+            Log.warning?.message("max request for checking account info")
+            return
+        }
+        
         HSReplayAPI.updateAccountStatus() { (status) in
+            self.requests += 1
             if status {
                 self.getAccountTimer?.invalidate()
             }
@@ -69,7 +85,11 @@ class HSReplayPreferences: NSViewController {
                 String(format: NSLocalizedString("Connected as %@", comment: ""), username)
             claimAccountInfo.enabled = false
             claimAccountButton.enabled = false
+            disconnectButton.enabled = true
         } else {
+            claimAccountInfo.enabled = true
+            claimAccountButton.enabled = true
+            disconnectButton.enabled = false
             hsReplayAccountStatus.stringValue = NSLocalizedString("Account status : Anonymous",
                                                                   comment: "")
         }

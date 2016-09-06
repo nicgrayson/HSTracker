@@ -19,7 +19,7 @@ class HSReplayAPI {
             return
         }
         Alamofire.request(.POST, "\(HSReplay.tokensUrl)/",
-            parameters: ["api_token": apiKey, "test_data": true],
+            parameters: ["api_token": apiKey],
             encoding: .JSON, headers: [
                 "X-Api-Key": apiKey
             ])
@@ -68,11 +68,12 @@ class HSReplayAPI {
     static func updateAccountStatus(handle: Bool -> ()) {
         guard let token = Settings.instance.hsReplayUploadToken else {
             Log.error?.message("Authorization token not set yet")
+            handle(false)
             return
         }
         Log.info?.message("Checking account status...")
         
-        Alamofire.request(.GET, "\(HSReplay.tokensUrl)/\(token)",
+        Alamofire.request(.GET, "\(HSReplay.tokensUrl)/\(token)/",
             parameters: [:],
             encoding: .JSON, headers: [
                 "X-Api-Key": apiKey,
