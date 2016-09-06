@@ -32,7 +32,7 @@ class OpponentTrackersPreferences: NSViewController {
         showOpponentCardCount.state = settings.showOpponentCardCount ? NSOnState : NSOffState
         showOpponentDrawChance.state = settings.showOpponentDrawChance ? NSOnState : NSOffState
         showCthunCounter.state = settings.showOpponentCthun ? NSOnState : NSOffState
-        showSpellCounter.state = settings.showOpponentYogg ? NSOnState : NSOffState
+        showSpellCounter.state = settings.showOpponentSpell ? NSOnState : NSOffState
         includeCreated.state = settings.showOpponentCreated ? NSOnState : NSOffState
         showDeathrattleCounter.state = settings.showOpponentDeathrattle ? NSOnState : NSOffState
         showPlayerClass.state = settings.showOpponentClassInTracker ? NSOnState : NSOffState
@@ -55,7 +55,7 @@ class OpponentTrackersPreferences: NSViewController {
         } else if sender == showCthunCounter {
             settings.showOpponentCthun = showCthunCounter.state == NSOnState
         } else if sender == showSpellCounter {
-            settings.showOpponentYogg = showSpellCounter.state == NSOnState
+            settings.showOpponentSpell = showSpellCounter.state == NSOnState
         } else if sender == includeCreated {
             settings.showOpponentCreated = includeCreated.state == NSOnState
         } else if sender == showDeathrattleCounter {

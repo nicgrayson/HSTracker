@@ -136,7 +136,7 @@ final class Settings {
         set { set("player_deathrattle_frame", value: newValue) }
         get { return get("player_deathrattle_frame") as? Bool ?? true }
     }
-    var showPlayerYogg: Bool {
+    var showPlayerSpell: Bool {
         set { set("player_yogg_frame", value: newValue) }
         get { return get("player_yogg_frame") as? Bool ?? true }
     }
@@ -144,7 +144,7 @@ final class Settings {
         set { set("opponent_cthun_frame", value: newValue) }
         get { return get("opponent_cthun_frame") as? Bool ?? true }
     }
-    var showOpponentYogg: Bool {
+    var showOpponentSpell: Bool {
         set { set("opponent_yogg_frame", value: newValue) }
         get { return get("opponent_yogg_frame") as? Bool ?? true }
     }
