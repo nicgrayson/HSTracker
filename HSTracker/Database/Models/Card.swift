@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 final class Card: Hashable, CustomStringConvertible {
     // MARK: - Card data

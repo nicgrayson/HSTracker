@@ -271,6 +271,7 @@ class Game {
         }
         
         checkForRank()
+        PluginManager.instance.onGameStart(timestamp)
     }
     
     private func adventureRestart() {
@@ -323,6 +324,7 @@ class Game {
         }
 
         showSecrets(false)
+        PluginManager.instance.onGameEnd()
     }
 
     func inMenu() {
@@ -493,6 +495,7 @@ class Game {
             updatePlayerTracker()
         }
         
+        PluginManager.instance.turnStart(playerTurn)
         dispatch_async(dispatch_get_main_queue()) {
             TurnTimer.instance.setPlayer(player)
         }

@@ -48,3 +48,4 @@ enum CardType: Int {
                 .ENCHANTMENT, .WEAPON, .ITEM, .TOKEN, .HERO_POWER]
     }
 }
+

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 import CleanroomLogger
 
 class Draft {

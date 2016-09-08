@@ -19,5 +19,6 @@
 #import <Sparkle/Sparkle.h>
 
 #import "CVRankDetectorWrapper.hpp"
+#import "HSTrackerPlugin.h"
 
 #endif /* HSTracker_Bridging_Header_h */

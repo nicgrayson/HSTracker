@@ -158,6 +158,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             Log.info?.message("Loading decks")
             Decks.instance.loadDecks(self.splashscreen)
         }
+        let pluginOperation = NSBlockOperation {
+            Log.info?.message("Loading plugins")
+            PluginManager.instance.loadPlugins()
+        }
         let loggingOperation = NSBlockOperation {
             while true {
                 if self.playerTracker != nil && self.opponentTracker != nil {
@@ -192,6 +196,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             }
         }
 
+        loggingOperation.addDependency(pluginOperation)
         loggingOperation.addDependency(trackerOperation)
         loggingOperation.addDependency(menuOperation)
         decksOperation.addDependency(databaseOperation)
@@ -204,6 +209,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         operationQueue?.addOperation(decksOperation)
         operationQueue?.addOperation(loggingOperation)
         operationQueue?.addOperation(menuOperation)
+        operationQueue?.addOperation(pluginOperation)
 
         operationQueue?.addObserver(self,
                                    forKeyPath: "operations",
