@@ -32,6 +32,7 @@
 		431AA0CB1D362DBA0030AD22 /* Faction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431AA0CA1D362DBA0030AD22 /* Faction.swift */; };
 		431AA0CD1D362ECB0030AD22 /* Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431AA0CC1D362ECB0030AD22 /* Race.swift */; };
 		431AA0CF1D3632BC0030AD22 /* CardClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431AA0CE1D3632BC0030AD22 /* CardClass.swift */; };
+		431E909E1D857B0200874C54 /* PluginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431E909D1D857B0200874C54 /* PluginEntity.swift */; };
 		4324EAAF1D7FEE51009DF8C8 /* GameStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4324EAAE1D7FEE51009DF8C8 /* GameStats.swift */; };
 		432A392F1CF0B0F80029F0EA /* LogReaderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */; };
 		432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FAD1CB5351800B05D19 /* Localizable.strings */; };
@@ -345,6 +346,7 @@
 		431AA0CA1D362DBA0030AD22 /* Faction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Faction.swift; sourceTree = "<group>"; };
 		431AA0CC1D362ECB0030AD22 /* Race.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Race.swift; sourceTree = "<group>"; };
 		431AA0CE1D3632BC0030AD22 /* CardClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardClass.swift; sourceTree = "<group>"; };
+		431E909D1D857B0200874C54 /* PluginEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PluginEntity.swift; sourceTree = "<group>"; };
 		4324EAAE1D7FEE51009DF8C8 /* GameStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStats.swift; sourceTree = "<group>"; };
 		4324EAB01D7FF3EA009DF8C8 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderInfo.swift; sourceTree = "<group>"; };
@@ -1114,6 +1116,7 @@
 			children = (
 				43ACFB841D7F5952002B7A6E /* PluginManager.swift */,
 				43ACFBA81D7FE63A002B7A6E /* HSTrackerPlugin.h */,
+				431E909D1D857B0200874C54 /* PluginEntity.swift */,
 			);
 			path = Plugins;
 			sourceTree = "<group>";
@@ -1427,6 +1430,7 @@
 				437B5BB31CD2439800DE0A41 /* WotogCounterHelper.swift in Sources */,
 				432B60371CBD269700B05D19 /* Color.swift in Sources */,
 				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,
+				431E909E1D857B0200874C54 /* PluginEntity.swift in Sources */,
 				439C7EC11C777F8900D29859 /* AssetHandler.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,

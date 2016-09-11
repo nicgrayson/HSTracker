@@ -575,15 +575,17 @@ class Game {
 
     // MARK: - player
     func setPlayerHero(cardId: String) {
-        if let card = Cards.heroById(cardId) {
+        guard let card = Cards.heroById(cardId) else { return }
+
             player.playerClass = card.playerClass
             player.playerClassId = cardId
             Log.info?.message("Player class is \(card) ")
-        }
+        PluginManager.instance.onPlayerHero(cardId)
     }
 
     func setPlayerName(name: String) {
         player.name = name
+        PluginManager.instance.onPlayerName(name)
     }
 
     func playerGet(entity: Entity, cardId: String?, turn: Int) {
@@ -592,6 +594,7 @@ class Game {
         }
         player.createInHand(entity, turn: turn)
         updatePlayerTracker()
+        PluginManager.instance.onPlayerGet(entity, turn: turn)
     }
 
     func playerBackToHand(entity: Entity, cardId: String?, turn: Int) {
@@ -600,6 +603,7 @@ class Game {
         }
         updatePlayerTracker()
         player.boardToHand(entity, turn: turn)
+        PluginManager.instance.onPlayerBackToHand(entity, turn: turn)
     }
 
     func playerPlayToDeck(entity: Entity, cardId: String?, turn: Int) {
@@ -608,6 +612,7 @@ class Game {
         }
         player.boardToDeck(entity, turn: turn)
         updatePlayerTracker()
+        PluginManager.instance.onPlayerPlayToDeck(entity, turn: turn)
     }
 
     func playerPlay(entity: Entity, cardId: String?, turn: Int) {
@@ -634,6 +639,7 @@ class Game {
 
         secretsOnPlay(entity)
         updateOpponentTracker()
+        PluginManager.instance.onPlayerPlay(entity, turn: turn)
     }
 
     func secretsOnPlay(entity: Entity) {
@@ -672,6 +678,7 @@ class Game {
         }
         player.handDiscard(entity, turn: turn)
         updatePlayerTracker()
+        PluginManager.instance.onPlayerHandDiscard(entity, turn: turn)
     }
 
     func playerSecretPlayed(entity: Entity, cardId: String?, turn: Int, fromZone: Zone) {
@@ -690,15 +697,19 @@ class Game {
             return
         }
         updatePlayerTracker()
+        PluginManager.instance.onPlayerSecretPlayed(entity,
+                                                    turn: turn,
+                                                    fromZone: fromZone)
     }
 
     func playerMulligan(entity: Entity, cardId: String?) {
         if String.isNullOrEmpty(cardId) {
             return
         }
-        // TurnTimer.Instance.MulliganDone(ActivePlayer.Player);
+
         player.mulligan(entity)
         updatePlayerTracker()
+        PluginManager.instance.onPlayerMulligan(entity)
     }
 
     func playerDraw(entity: Entity, cardId: String?, turn: Int) {
@@ -710,47 +721,56 @@ class Game {
         } else {
             player.draw(entity, turn: turn)
             updatePlayerTracker()
+            PluginManager.instance.onPlayerDraw(entity, turn: turn)
         }
     }
 
     func playerRemoveFromDeck(entity: Entity, turn: Int) {
         player.removeFromDeck(entity, turn: turn)
         updatePlayerTracker()
+        PluginManager.instance.onPlayerRemoveFromDeck(entity, turn: turn)
     }
 
     func playerDeckDiscard(entity: Entity, cardId: String?, turn: Int) {
         player.deckDiscard(entity, turn: turn)
         updatePlayerTracker()
+        PluginManager.instance.onPlayerDeckDiscard(entity, turn: turn)
     }
 
     func playerDeckToPlay(entity: Entity, cardId: String?, turn: Int) {
         player.deckToPlay(entity, turn: turn)
         updatePlayerTracker()
+        PluginManager.instance.onPlayerDeckToPlay(entity, turn: turn)
     }
 
     func playerPlayToGraveyard(entity: Entity, cardId: String?, turn: Int) {
         player.playToGraveyard(entity, cardId: cardId, turn: turn)
         updatePlayerTracker()
+        PluginManager.instance.onPlayerPlayToGraveyard(entity, turn: turn)
     }
 
     func playerJoust(entity: Entity, cardId: String?, turn: Int) {
         player.joustReveal(entity, turn: turn)
         updatePlayerTracker()
+        PluginManager.instance.onPlayerJoust(entity, turn: turn)
     }
 
     func playerGetToDeck(entity: Entity, cardId: String?, turn: Int) {
         player.createInDeck(entity, turn: turn)
         updatePlayerTracker()
+        PluginManager.instance.onPlayerGetToDeck(entity, turn: turn)
     }
 
     func playerFatigue(value: Int) {
         Log.info?.message("Player get \(value) fatigue")
         player.fatigue = value
         updatePlayerTracker()
+        PluginManager.instance.onPlayerFatigue(value)
     }
 
     func playerCreateInPlay(entity: Entity, cardId: String?, turn: Int) {
         player.createInPlay(entity, turn: turn)
+        PluginManager.instance.onPlayerCreateInPlay(entity, turn: turn)
     }
 
     func playerStolen(entity: Entity, cardId: String?, turn: Int) {
@@ -778,10 +798,14 @@ class Game {
             opponentSecrets?.newSecretPlayed(heroClass!, id: entity.id, turn: turn)
             showSecrets(true)
         }
+
+        PluginManager.instance.onStolenByOpponent(.Player, entity: entity, turn: turn)
+        PluginManager.instance.onStolenFromOpponent(.Opponent, entity: entity, turn: turn)
     }
 
     func playerRemoveFromPlay(entity: Entity, turn: Int) {
         player.removeFromPlay(entity, turn: turn)
+        PluginManager.instance.onPlayerRemoveFromPlay(entity, turn: turn)
     }
 
     func playerHeroPower(cardId: String, turn: Int) {
@@ -793,21 +817,23 @@ class Game {
         }
         opponentSecrets?.setZero(CardIds.Secrets.Hunter.DartTrap)
         showSecrets(true)
+        PluginManager.instance.onPlayerHeroPower(cardId, turn: turn)
     }
 
     // MARK: - opponent
     func setOpponentHero(cardId: String) {
-        if let card = Cards.heroById(cardId) {
+        guard let card = Cards.heroById(cardId) else { return }
             opponent.playerClass = card.playerClass
             opponent.playerClassId = cardId
             updateOpponentTracker()
             Log.info?.message("Opponent class is \(card) ")
-        }
+        PluginManager.instance.onOpponentHero(cardId)
     }
 
     func setOpponentName(name: String) {
         opponent.name = name
         updateOpponentTracker()
+        PluginManager.instance.onOpponentName(name)
     }
 
     func opponentGet(entity: Entity, turn: Int, id: Int) {
@@ -818,18 +844,21 @@ class Game {
         opponent.createInHand(entity, turn: turn)
         updateOpponentTracker()
         updateCardHuds()
+        PluginManager.instance.onOpponentGet(entity, turn: turn)
     }
 
     func opponentPlayToHand(entity: Entity, cardId: String?, turn: Int, id: Int) {
         opponent.boardToHand(entity, turn: turn)
         updateOpponentTracker()
         updateCardHuds()
+        PluginManager.instance.onOpponentPlayToHand(entity, turn: turn)
     }
 
     func opponentPlayToDeck(entity: Entity, cardId: String?, turn: Int) {
         opponent.boardToDeck(entity, turn: turn)
         updateOpponentTracker()
         updateCardHuds()
+        PluginManager.instance.onOpponentPlayToDeck(entity, turn: turn)
     }
 
     func opponentPlay(entity: Entity, cardId: String?, from: Int, turn: Int) {
@@ -852,12 +881,14 @@ class Game {
         }
         updateCardHuds()
         updateOpponentTracker()
+        PluginManager.instance.onOpponentPlay(entity, turn: turn)
     }
 
     func opponentHandDiscard(entity: Entity, cardId: String?, from: Int, turn: Int) {
         opponent.handDiscard(entity, turn: turn)
         updateOpponentTracker()
         updateCardHuds()
+        PluginManager.instance.onOpponentHandDiscard(entity, turn: turn)
     }
 
     func opponentSecretPlayed(entity: Entity, cardId: String?,
@@ -897,36 +928,42 @@ class Game {
 
         opponentSecrets?.newSecretPlayed(heroClass!, id: otherId, turn: turn)
         showSecrets(true)
+        PluginManager.instance.onOpponentSecretPlayed(entity, turn: turn, fromZone: fromZone)
     }
 
     func opponentMulligan(entity: Entity, from: Int) {
         opponent.mulligan(entity)
         updateOpponentTracker()
         updateCardHuds()
+        PluginManager.instance.onOpponentMulligan(entity)
     }
 
     func opponentDraw(entity: Entity, turn: Int) {
         opponent.draw(entity, turn: turn)
         updateOpponentTracker()
         updateCardHuds()
+        PluginManager.instance.onOpponentDraw(entity, turn: turn)
     }
 
     func opponentRemoveFromDeck(entity: Entity, turn: Int) {
         opponent.removeFromDeck(entity, turn: turn)
         updateOpponentTracker()
         updateCardHuds()
+        PluginManager.instance.onOpponentRemoveFromDeck(entity, turn: turn)
     }
 
     func opponentDeckDiscard(entity: Entity, cardId: String?, turn: Int) {
         opponent.deckDiscard(entity, turn: turn)
         updateOpponentTracker()
         updateCardHuds()
+        PluginManager.instance.onOpponentDeckDiscard(entity, turn: turn)
     }
 
     func opponentDeckToPlay(entity: Entity, cardId: String?, turn: Int) {
         opponent.deckToPlay(entity, turn: turn)
         updateOpponentTracker()
         updateCardHuds()
+        PluginManager.instance.onOpponentDeckToPlay(entity, turn: turn)
     }
 
     func opponentPlayToGraveyard(entity: Entity, cardId: String?,
@@ -937,18 +974,21 @@ class Game {
         }
         updateCardHuds()
         updateOpponentTracker()
+        PluginManager.instance.onOpponentPlayToGraveyard(entity, turn: turn)
     }
 
     func opponentJoust(entity: Entity, cardId: String?, turn: Int) {
         opponent.joustReveal(entity, turn: turn)
         updateOpponentTracker()
         updateCardHuds()
+        PluginManager.instance.onOpponentJoust(entity, turn: turn)
     }
 
     func opponentGetToDeck(entity: Entity, turn: Int) {
         opponent.createInDeck(entity, turn: turn)
         updateOpponentTracker()
         updateCardHuds()
+        PluginManager.instance.onOpponentGetToDeck(entity, turn: turn)
     }
 
     func opponentSecretTrigger(entity: Entity, cardId: String?, turn: Int, otherId: Int) {
@@ -967,15 +1007,18 @@ class Game {
             showSecrets(true)
         }
         updateCardHuds()
+        PluginManager.instance.onOpponentSecretTrigger(entity, turn: turn)
     }
 
     func opponentFatigue(value: Int) {
         opponent.fatigue = value
         updateOpponentTracker()
+        PluginManager.instance.onOpponentFatigue(value)
     }
 
     func opponentCreateInPlay(entity: Entity, cardId: String?, turn: Int) {
         opponent.createInPlay(entity, turn: turn)
+        PluginManager.instance.onOpponentCreateInPlay(entity, turn: turn)
     }
 
     func opponentStolen(entity: Entity, cardId: String?, turn: Int) {
@@ -996,15 +1039,20 @@ class Game {
 
             updateOpponentTracker()
         }
+
+        PluginManager.instance.onStolenByOpponent(.Opponent, entity: entity, turn: turn)
+        PluginManager.instance.onStolenFromOpponent(.Player, entity: entity, turn: turn)
     }
 
     func opponentRemoveFromPlay(entity: Entity, turn: Int) {
         player.removeFromPlay(entity, turn: turn)
+        PluginManager.instance.onOpponentRemoveFromPlay(entity, turn: turn)
     }
 
     func opponentHeroPower(cardId: String, turn: Int) {
         updateBoardAttack()
         Log.info?.message("Opponent Hero Power \(cardId) \(turn) ")
+        PluginManager.instance.onOpponentHeroPower(cardId, turn: turn)
     }
 
     // MARK: - game actions
