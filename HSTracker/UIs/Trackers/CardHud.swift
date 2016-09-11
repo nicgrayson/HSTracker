@@ -22,7 +22,7 @@ class CardHud: NSView {
     private let turnFrame = NSRect(x: 1, y: 13, width: 33, height: 31)
     
     init() {
-        super.init(frame: NSZeroRect)
+        super.init(frame: NSRect.zero)
         initLayers()
     }
     
@@ -103,7 +103,7 @@ class CardHud: NSView {
     // MARK: - mouse hover
     func ensureTrackingArea() {
         if trackingArea == nil {
-            trackingArea = NSTrackingArea(rect: NSZeroRect,
+            trackingArea = NSTrackingArea(rect: NSRect.zero,
                                           options: [NSTrackingAreaOptions.InVisibleRect,
                                             NSTrackingAreaOptions.ActiveAlways,
                                             NSTrackingAreaOptions.MouseEnteredAndExited],
@@ -128,7 +128,7 @@ class CardHud: NSView {
         guard let frame = self.superview?.window?.convertRectToScreen(rect) else { return }
 
         var screenRect = frame
-        screenRect.origin.x += NSWidth(rect) - 30
+        screenRect.origin.x += rect.width - 30
         screenRect.origin.y -= 250
         screenRect.size = NSSize(width: 200, height: 300)
         
@@ -138,7 +138,7 @@ class CardHud: NSView {
                                   userInfo: [
                                     "card": card,
                                     "frame": [
-                                        screenRect.origin.x + NSWidth(rect) - 30,
+                                        screenRect.origin.x + rect.width - 30,
                                         screenRect.origin.y,
                                         200,
                                         300

@@ -24,7 +24,7 @@
 
 -(void) onGameReset;
 
--(void) onGameStart:(NSDate *_Nonnull)time;
+-(void) onGameStart:(NSNumber *_Nonnull)time;
 
 -(void) onGameEnd;
 

@@ -94,7 +94,7 @@ class PluginManager {
         }
     }
     
-    func onGameStart(time: NSDate) {
+    func onGameStart(time: Double) {
         plugins.forEach {
             $0.onGameStart?(time)
         }
@@ -112,9 +112,9 @@ class PluginManager {
         }
     }
     
-    func turnStart(player: PlayerTurn) {
+    func turnStart(player: String, turn: Int) {
         plugins.forEach {
-            $0.turnStart?("\(player.player)", turn: player.turn)
+            $0.turnStart?(player, turn: turn)
         }
     }
 }

@@ -495,7 +495,7 @@ class Game {
             updatePlayerTracker()
         }
         
-        PluginManager.instance.turnStart(playerTurn)
+        PluginManager.instance.turnStart("\(player)", turn: turn)
         dispatch_async(dispatch_get_main_queue()) {
             TurnTimer.instance.setPlayer(player)
         }
@@ -1288,7 +1288,7 @@ class Game {
 
     func moveWindow(windowController: NSWindowController?, active: Bool, frame: NSRect) {
         guard let windowController = windowController else { return }
-        guard frame != NSZeroRect else { return }
+        guard frame != NSRect.zero else { return }
 
         if windowController.window?.visible ?? false {
             windowController.window?.orderOut(self)

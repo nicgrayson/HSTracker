@@ -333,7 +333,7 @@ final class Settings {
                 severity = LogSeverity(rawValue: rawSeverity) {
                 return severity
             }
-            return .Verbose
+            return .verbose
         }
     }
 
