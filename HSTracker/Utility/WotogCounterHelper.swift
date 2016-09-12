@@ -64,10 +64,11 @@ class WotogCounterHelper {
     }
 
     static var showPlayerSpellsCounter: Bool {
-        return Settings.instance.showPlayerSpell
-            && ((yoggInDeck != nil && (playerYogg != nil || yoggInDeck == true))
+        guard Settings.instance.showPlayerSpell else { return false }
+
+        return (yoggInDeck != nil && (playerYogg != nil || yoggInDeck == true))
                 || (arcaneGiantInDeck != nil
-                    && (arcaneGiantInDeck != nil || arcaneGiantInDeck == true)))
+                    && (playerArcaneGiant != nil || arcaneGiantInDeck == true))
     }
 
     static var showPlayerDeathrattleCounter: Bool {
