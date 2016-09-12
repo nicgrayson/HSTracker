@@ -149,8 +149,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let splashscreenHeight: CGFloat = 250
 
         splashscreen?.window?.setFrame(NSRect(
-            x: (NSWidth(screenFrame) / 2) - (splashscreenWidth / 2),
-            y: (NSHeight(screenFrame) / 2) - (splashscreenHeight / 2),
+            x: (screenFrame.width / 2) - (splashscreenWidth / 2),
+            y: (screenFrame.height / 2) - (splashscreenHeight / 2),
             width: splashscreenWidth,
             height: splashscreenHeight),
                                        display: true)
@@ -326,7 +326,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let settings = Settings.instance
 
         let screenFrame = NSScreen.mainScreen()!.frame
-        let y = NSHeight(screenFrame) - 50
+        let y = screenFrame.height - 50
         let width: CGFloat
         switch settings.cardSize {
         case .Small:
@@ -344,7 +344,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let rect = settings.playerTrackerFrame {
             playerTracker?.window?.setFrame(rect, display: true)
         } else {
-            let x = NSWidth(screenFrame) - width
+            let x = screenFrame.width - width
             playerTracker?.window?.setFrame(NSRect(x: x, y: y, width: width, height: y),
                                             display: true)
         }

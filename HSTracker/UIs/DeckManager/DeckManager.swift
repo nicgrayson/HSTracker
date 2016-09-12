@@ -59,7 +59,7 @@ class DeckManager: NSWindowController {
         decksTable.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable,
                                        NSAutoresizingMaskOptions.ViewHeightSizable]
 
-        decksTable.tableColumns.first?.width = NSWidth(decksTable.bounds)
+        decksTable.tableColumns.first?.width = decksTable.bounds.width
         decksTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
 
         decksTable.target = self
@@ -67,7 +67,7 @@ class DeckManager: NSWindowController {
         decks = Decks.instance.decks().filter({$0.isActive})
         decksTable.reloadData()
 
-        deckListTable.tableColumns.first?.width = NSWidth(deckListTable.bounds)
+        deckListTable.tableColumns.first?.width = deckListTable.bounds.width
         deckListTable.tableColumns.first?.resizingMask = .AutoresizingMask
         
         loadSortPopUp()

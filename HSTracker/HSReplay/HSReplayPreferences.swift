@@ -107,11 +107,11 @@ extension HSReplayPreferences: MASPreferencesViewController {
         }
     }
     
-    var toolbarItemImage: NSImage! {
+    var toolbarItemImage: NSImage? {
         return NSImage(named: "hsreplay_icon")
     }
     
-    var toolbarItemLabel: String! {
+    var toolbarItemLabel: String? {
         return "HSReplay"
     }
 }

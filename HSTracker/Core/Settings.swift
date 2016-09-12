@@ -293,7 +293,7 @@ final class Settings {
         get { return get("trackobot_auto_synchronize_matches") as? Bool ?? true }
     }
     
-    // MARK:- HSReplay
+    // MARK: - HSReplay
     var saveReplays: Bool {
         set { set("save_replays", value: newValue) }
         get { return get("save_replays") as? Bool ?? false }

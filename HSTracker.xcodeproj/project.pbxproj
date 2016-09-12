@@ -1218,8 +1218,8 @@
 				43C568001D5E584F00451B6F /* LogUploader.swift */,
 				43C568021D5E59E500451B6F /* UploadResult.swift */,
 				43C568041D5E5BFF00451B6F /* UploadMetaData.swift */,
-				433554381D5FABD600277B27 /* HSReplayPreferences.swift */,
 				4335543C1D5FAF0300277B27 /* HSReplayPreferences.xib */,
+				433554381D5FABD600277B27 /* HSReplayPreferences.swift */,
 			);
 			path = HSReplay;
 			sourceTree = "<group>";

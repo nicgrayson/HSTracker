@@ -53,11 +53,11 @@ extension UpdatePreferences: MASPreferencesViewController {
         }
     }
     
-    var toolbarItemImage: NSImage! {
+    var toolbarItemImage: NSImage? {
         return NSImage(named: "Sparkle")
     }
     
-    var toolbarItemLabel: String! {
+    var toolbarItemLabel: String? {
         return NSLocalizedString("Updates", comment: "")
     }
 }

@@ -171,7 +171,7 @@ class CardBar: NSView, CardBarTheme {
     }
 
     init() {
-        super.init(frame: NSZeroRect)
+        super.init(frame: NSRect.zero)
         initLayers()
         initVars()
     }
@@ -480,10 +480,10 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func addCardName() {
-        var width = NSWidth(frameRect) - 38
+        var width = frameRect.width - 38
         if let card = card {
             if abs(card.count) > 0 || card.rarity == .Legendary {
-                width -= NSWidth(boxRect)
+                width -= boxRect.width
             }
             if card.isCreated {
                 // createdIconOffset is negative, add abs for readability
@@ -607,8 +607,8 @@ class CardBar: NSView, CardBarTheme {
         default: baseHeight = CGFloat(kRowHeight)
         }
 
-        if baseHeight > NSHeight(self.bounds) {
-            return CGFloat(kRowHeight) / NSHeight(self.bounds)
+        if baseHeight > self.bounds.height {
+            return CGFloat(kRowHeight) / self.bounds.height
         }
         return ratioWidth
     }

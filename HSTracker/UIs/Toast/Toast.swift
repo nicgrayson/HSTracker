@@ -24,10 +24,10 @@ class Toast {
         w.orderFrontRegardless()
         
         let screenRect = NSScreen.screens()!.first!.frame
-        let height = NSHeight(screenRect)
-        let x = NSWidth(screenRect) / 2 - windowWidth / 2
+        let height = screenRect.height
+        let x = screenRect.width / 2 - windowWidth / 2
         
-        let rect = NSRect(x: x, y: NSMinY(screenRect), width: windowWidth, height: height)
+        let rect = NSRect(x: x, y: screenRect.minY, width: windowWidth, height: height)
         w.setFrame(rect, display: true)
         
         return w
@@ -90,10 +90,10 @@ class Toast {
             let gradient = NSGradient(startingColor: starting, endingColor: ending)
             gradient?.drawInRect(dirtyRect, angle: 270)
             
-            let titleFrame = NSRect(x: 20, y: NSHeight(dirtyRect) - 30,
-                                    width: NSWidth(dirtyRect) - 40, height: 20)
-            let messageFrame = NSRect(x: 20, y: NSMinY(titleFrame) - 40,
-                                    width: NSWidth(dirtyRect) - 40, height: 40)
+            let titleFrame = NSRect(x: 20, y: dirtyRect.height - 30,
+                                    width: dirtyRect.width - 40, height: 20)
+            let messageFrame = NSRect(x: 20, y: titleFrame.minY - 40,
+                                    width: dirtyRect.width - 40, height: 40)
            
             if let title = title {
                 let attributes = TextAttributes()
@@ -152,7 +152,7 @@ class Toast {
         
         func add(panel: ToastPanel) {
             if let contentView = self.contentView {
-                let y = NSMaxY(contentView.frame)
+                let y = contentView.frame.maxY
                 panel.frame = NSRect(x: 0, y: y, width: windowWidth, height: 70)
                 contentView.addSubview(panel)
                 panels.append(panel)
@@ -180,7 +180,7 @@ class Toast {
             NSAnimationContext.beginGrouping()
             NSAnimationContext.currentContext().duration = 0.8
             
-            var y: CGFloat = NSMaxY(contentView!.frame)
+            var y: CGFloat = contentView!.frame.maxY
             panels.reverse().forEach {
                 y -= 80
                 let newOrigin = NSPoint(x: 0, y: y)
